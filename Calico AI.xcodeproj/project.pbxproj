@@ -11,6 +11,19 @@
 		F7F1D17E2A339AA60088201F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D17D2A339AA60088201F /* ContentView.swift */; };
 		F7F1D1802A339AA90088201F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7F1D17F2A339AA90088201F /* Assets.xcassets */; };
 		F7F1D1832A339AA90088201F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7F1D1822A339AA90088201F /* Preview Assets.xcassets */; };
+		F7F1D18A2A339BB40088201F /* PromptInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D1892A339BB40088201F /* PromptInfoView.swift */; };
+		F7F1D18C2A339BC40088201F /* PromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D18B2A339BC40088201F /* PromptView.swift */; };
+		F7F1D1932A339D5F0088201F /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D18E2A339D5F0088201F /* DrawingView.swift */; };
+		F7F1D1942A339D5F0088201F /* AIGenerationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D18F2A339D5F0088201F /* AIGenerationView.swift */; };
+		F7F1D1952A339D5F0088201F /* UserImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D1902A339D5F0088201F /* UserImageView.swift */; };
+		F7F1D1962A339D5F0088201F /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D1912A339D5F0088201F /* ImagePickerView.swift */; };
+		F7F1D1972A339D5F0088201F /* FocusFieldTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D1922A339D5F0088201F /* FocusFieldTest.swift */; };
+		F7F1D19C2A339DF10088201F /* Cerebrium Rate Limit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D1992A339DF10088201F /* Cerebrium Rate Limit.swift */; };
+		F7F1D19D2A339DF10088201F /* CerebriumCustomSD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D19A2A339DF10088201F /* CerebriumCustomSD.swift */; };
+		F7F1D19E2A339DF10088201F /* Cerebrium.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D19B2A339DF10088201F /* Cerebrium.swift */; };
+		F7F1D1A42A339E970088201F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D1A22A339E970088201F /* Extensions.swift */; };
+		F7F1D1A52A339E970088201F /* SizeFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D1A32A339E970088201F /* SizeFunctions.swift */; };
+		F7F1D1A82A339EC20088201F /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D1A72A339EC20088201F /* ViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +32,19 @@
 		F7F1D17D2A339AA60088201F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F7F1D17F2A339AA90088201F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F7F1D1822A339AA90088201F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F7F1D1892A339BB40088201F /* PromptInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptInfoView.swift; sourceTree = "<group>"; };
+		F7F1D18B2A339BC40088201F /* PromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptView.swift; sourceTree = "<group>"; };
+		F7F1D18E2A339D5F0088201F /* DrawingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
+		F7F1D18F2A339D5F0088201F /* AIGenerationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AIGenerationView.swift; sourceTree = "<group>"; };
+		F7F1D1902A339D5F0088201F /* UserImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserImageView.swift; sourceTree = "<group>"; };
+		F7F1D1912A339D5F0088201F /* ImagePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
+		F7F1D1922A339D5F0088201F /* FocusFieldTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusFieldTest.swift; sourceTree = "<group>"; };
+		F7F1D1992A339DF10088201F /* Cerebrium Rate Limit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Cerebrium Rate Limit.swift"; sourceTree = "<group>"; };
+		F7F1D19A2A339DF10088201F /* CerebriumCustomSD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CerebriumCustomSD.swift; sourceTree = "<group>"; };
+		F7F1D19B2A339DF10088201F /* Cerebrium.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cerebrium.swift; sourceTree = "<group>"; };
+		F7F1D1A22A339E970088201F /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		F7F1D1A32A339E970088201F /* SizeFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeFunctions.swift; sourceTree = "<group>"; };
+		F7F1D1A72A339EC20088201F /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,10 +77,13 @@
 		F7F1D17A2A339AA60088201F /* Calico AI */ = {
 			isa = PBXGroup;
 			children = (
+				F7F1D1A72A339EC20088201F /* ViewModel.swift */,
 				F7F1D17B2A339AA60088201F /* Calico_AIApp.swift */,
-				F7F1D17D2A339AA60088201F /* ContentView.swift */,
-				F7F1D17F2A339AA90088201F /* Assets.xcassets */,
+				F7F1D1982A339DE00088201F /* Views */,
+				F7F1D1A62A339EA70088201F /* Extensions */,
+				F7F1D19F2A339DF90088201F /* Models */,
 				F7F1D1812A339AA90088201F /* Preview Content */,
+				F7F1D17F2A339AA90088201F /* Assets.xcassets */,
 			);
 			path = "Calico AI";
 			sourceTree = "<group>";
@@ -65,6 +94,48 @@
 				F7F1D1822A339AA90088201F /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		F7F1D18D2A339BCD0088201F /* PromptView */ = {
+			isa = PBXGroup;
+			children = (
+				F7F1D1892A339BB40088201F /* PromptInfoView.swift */,
+				F7F1D18B2A339BC40088201F /* PromptView.swift */,
+			);
+			path = PromptView;
+			sourceTree = "<group>";
+		};
+		F7F1D1982A339DE00088201F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F7F1D17D2A339AA60088201F /* ContentView.swift */,
+				F7F1D18D2A339BCD0088201F /* PromptView */,
+				F7F1D18F2A339D5F0088201F /* AIGenerationView.swift */,
+				F7F1D18E2A339D5F0088201F /* DrawingView.swift */,
+				F7F1D1922A339D5F0088201F /* FocusFieldTest.swift */,
+				F7F1D1912A339D5F0088201F /* ImagePickerView.swift */,
+				F7F1D1902A339D5F0088201F /* UserImageView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F7F1D19F2A339DF90088201F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F7F1D1992A339DF10088201F /* Cerebrium Rate Limit.swift */,
+				F7F1D19B2A339DF10088201F /* Cerebrium.swift */,
+				F7F1D19A2A339DF10088201F /* CerebriumCustomSD.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F7F1D1A62A339EA70088201F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F7F1D1A22A339E970088201F /* Extensions.swift */,
+				F7F1D1A32A339E970088201F /* SizeFunctions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,8 +208,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7F1D1942A339D5F0088201F /* AIGenerationView.swift in Sources */,
+				F7F1D1952A339D5F0088201F /* UserImageView.swift in Sources */,
+				F7F1D1A52A339E970088201F /* SizeFunctions.swift in Sources */,
+				F7F1D18C2A339BC40088201F /* PromptView.swift in Sources */,
 				F7F1D17E2A339AA60088201F /* ContentView.swift in Sources */,
+				F7F1D19E2A339DF10088201F /* Cerebrium.swift in Sources */,
+				F7F1D19C2A339DF10088201F /* Cerebrium Rate Limit.swift in Sources */,
+				F7F1D19D2A339DF10088201F /* CerebriumCustomSD.swift in Sources */,
+				F7F1D1962A339D5F0088201F /* ImagePickerView.swift in Sources */,
+				F7F1D1A42A339E970088201F /* Extensions.swift in Sources */,
+				F7F1D1A82A339EC20088201F /* ViewModel.swift in Sources */,
+				F7F1D1932A339D5F0088201F /* DrawingView.swift in Sources */,
 				F7F1D17C2A339AA60088201F /* Calico_AIApp.swift in Sources */,
+				F7F1D1972A339D5F0088201F /* FocusFieldTest.swift in Sources */,
+				F7F1D18A2A339BB40088201F /* PromptInfoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,11 +354,14 @@
 				DEVELOPMENT_TEAM = N72URDRC88;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Allow us to save your photo generations.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Allow us to upload your selected photo.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -299,11 +386,14 @@
 				DEVELOPMENT_TEAM = N72URDRC88;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Allow us to save your photo generations.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Allow us to upload your selected photo.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
