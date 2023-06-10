@@ -44,17 +44,42 @@ var cerebriumJSONObject: [String: Any] = [
     
 ]
 
+//var cerebriumTestObject: [String: Any] = [
+//    "prompt": "\(positivePrompt)",
+//    "height": 728,
+//    "width": 512,
+//    "num_inference_steps": samples,
+//    "guidance_scale": guidance,
+//    "num_images_per_prompt": 4,
+//    "negative_prompt": "\(negativePrompt)",
+//    "seed": seed,
+//]
+
 //need both of these to update the JSON object since I don't make a base64img when I have a blank canvas.
 var preProcessor: String = "text2img" {
     didSet {
         updateCerebriumJSONObject()
+  
     }
 }
 var base64ImageString: String = "" {
     didSet {
         updateCerebriumJSONObject()
+        
     }
 }
+
+//func updateCerebriumTestObject() {
+//    cerebriumTestObject["prompt"] = positivePrompt
+//    cerebriumTestObject["negative_prompt"] = negativePrompt
+//    cerebriumTestObject["height"] = closestMultipleOfEight(Double(imageHeight))
+//    cerebriumTestObject["width"] = closestMultipleOfEight(Double(imageWidth))
+//    cerebriumTestObject["num_inference_steps"] = samples
+//    cerebriumTestObject["guidance_scale"] = guidance
+//    cerebriumTestObject["seed"] = seed
+//    print("updated Cerebrium TEST Object")
+//    print(cerebriumTestObject)
+//}
 
 func updateCerebriumJSONObject() {
     cerebriumJSONObject["base64Image"] = base64ImageString
@@ -66,8 +91,8 @@ func updateCerebriumJSONObject() {
     cerebriumJSONObject["guidance_scale"] = guidance
     cerebriumJSONObject["seed"] = seed
     cerebriumJSONObject["preProcessor"] = preProcessor
-    print("updated Cerebrium JSON Object")
-    print(cerebriumJSONObject)
+   // print("updated Cerebrium JSON Object")
+   // print(cerebriumJSONObject)
 }
 
 //format the dictionary body into proper json for the HTTP request.
@@ -86,14 +111,14 @@ func makeJsonPayload(cerebriumJSONObject: [String: Any]) -> Data {
     
 }
 
-//"https://run.cerebrium.ai/controlnet-webhook/predict"
+//"https://run.cerebrium.ai/v2/p-2f24fdd5/customctrlnetv2/predict"
 
 //gpt sendit:
 
 func sendIt(completion: @escaping (UIImage?) -> Void, failure: @escaping (String) -> Void) {
     let decoder = JSONDecoder()
 
-    guard let url = URL(string: "https://run.cerebrium.ai/v1/p-2f24fdd5/customctrlnet/predict") else {
+    guard let url = URL(string: "https://run.cerebrium.ai/v2/p-2f24fdd5/customctrlnetv2/predict") else {
         return
     }
 
@@ -104,7 +129,7 @@ func sendIt(completion: @escaping (UIImage?) -> Void, failure: @escaping (String
     request.addValue("public-bbf531a4a3bd3748f814", forHTTPHeaderField:"Authorization")
     request.addValue("application/json", forHTTPHeaderField:"Content-Type")
     request.httpBody = makeJsonPayload(cerebriumJSONObject: cerebriumJSONObject)
-    request.timeoutInterval = 120
+    request.timeoutInterval = 240
 
     URLSession.shared.dataTask(with: request) { (data, response, error) in
         guard error == nil else {

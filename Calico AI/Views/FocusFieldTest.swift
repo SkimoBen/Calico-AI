@@ -48,6 +48,7 @@ struct FocusFieldTest: View {
                 .padding(30)
                 Spacer()
             }
+            .background(Color.init(hue: 191/360, saturation: 0.15, brightness: 0.99))
             .toolbar {
                 ToolbarItem(placement: .keyboard) {
                     Button("Done") {

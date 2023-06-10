@@ -108,9 +108,10 @@ struct ContentView: View {
                     })
                 }
                 
-
-                }, secondaryButton: .cancel())
-            }
+                
+            }, secondaryButton: .cancel())
+        }
+        //Bottom of the ZStack, this shows the image generation view.
         .fullScreenCover(isPresented: $showAIGenerationView) {
             AIGenerationView(image: $generatedImage, failure: $generationFailure).onAppear {
                 sendIt(completion: { (image) in
@@ -123,28 +124,28 @@ struct ContentView: View {
                 })
             }
         }
-
-            .sheet(isPresented: $showPromptView) {
-                PromptView(syncAspectRatio: $syncAspectRatio, positivePromptState: $positivePromptState, negativePromptState: $negativePromptState, widthState: $widthState, heightState: $heightState, samplesState: $samplesState, guidanceState: $guidanceState, seedState: $seedState)
-                    .clearModalBackground()
-                    .onAppear {
-                        //do this so that it isn't set to 512 X 512, but rather the actual aspect ratio.
-                        if AreImagesEmpty(viewModel: viewModel, drawing: DrawingView.drawing) == true {
-                            currentAspectRatio(viewModel: viewModel, size: size)
-                            //heightState = closestMultipleOfEight(Double(widthState) * viewModel.aspectRatio)
-                    
-                        } else {
-                            syncAspectRatio = false
-                        }
+        
+        .sheet(isPresented: $showPromptView) {
+            PromptView(syncAspectRatio: $syncAspectRatio, positivePromptState: $positivePromptState, negativePromptState: $negativePromptState, widthState: $widthState, heightState: $heightState, samplesState: $samplesState, guidanceState: $guidanceState, seedState: $seedState)
+                .clearModalBackground()
+                .onAppear {
+                    //do this so that it isn't set to 512 X 512, but rather the actual aspect ratio.
+                    if AreImagesEmpty(viewModel: viewModel, drawing: DrawingView.drawing) == true {
+                        currentAspectRatio(viewModel: viewModel, size: size)
+                        //heightState = closestMultipleOfEight(Double(widthState) * viewModel.aspectRatio)
                         
-                        viewModel.shouldBecomeFirstResponder = false
+                    } else {
+                        syncAspectRatio = false
                     }
-                    .onDisappear {
-                        if viewModel.background == nil {
-                            viewModel.shouldBecomeFirstResponder = true
-                        }
+                    
+                    viewModel.shouldBecomeFirstResponder = false
+                }
+                .onDisappear {
+                    if viewModel.background == nil {
+                        viewModel.shouldBecomeFirstResponder = true
                     }
-            }
+                }
+        }
         
     }
     

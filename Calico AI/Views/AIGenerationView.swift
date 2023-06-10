@@ -52,9 +52,9 @@ struct ProgressView: View {
     var body: some View {
         ZStack {
             TextProgressView(failure: $failure)
-
+            
             VStack {
-
+                
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .edgesIgnoringSafeArea(.all)
@@ -99,7 +99,7 @@ struct TextProgressView: View {
                 
                     .minimumScaleFactor(0.01)
                     .multilineTextAlignment(.leading)
-                    //.offset(x: animatedHue ? geometry.size.width * 0.02 : 0, y: animatedPosition ? geometry.size.width * 0.2 : 0)
+                //.offset(x: animatedHue ? geometry.size.width * 0.02 : 0, y: animatedPosition ? geometry.size.width * 0.2 : 0)
                 
                 if failure.isEmpty {
                     Text("Keep this open, or they might fly away")
@@ -110,67 +110,67 @@ struct TextProgressView: View {
                 
             }
             .frame(maxWidth: geometry.size.width, maxHeight: .infinity)
-                .overlay {
-                    LinearGradient(
-                        colors: failure.isEmpty ? loadingColours : failureColours,
-                        startPoint: animatedPosition ? .topLeading : .bottomLeading,
-                        endPoint:  animatedPosition ? .bottomTrailing : .topTrailing
+            .overlay {
+                LinearGradient(
+                    colors: failure.isEmpty ? loadingColours : failureColours,
+                    startPoint: animatedPosition ? .topLeading : .bottomLeading,
+                    endPoint:  animatedPosition ? .bottomTrailing : .topTrailing
+                    
+                )
+                .hueRotation(.degrees(animatedHue ? 90 : 0))
+                .onAppear {
+                    withAnimation(
+                        .linear(duration: 2.0)
                         
-                    )
-                    .hueRotation(.degrees(animatedHue ? 90 : 0))
-                    .onAppear {
-                        withAnimation(
-                            .linear(duration: 2.0)
-                            
-                            .repeatForever()
-                        ){
-                            animatedPosition.toggle()
-                       
-                        }
-                        withAnimation(
-                            .linear(duration: 3.0)
-                            
-                            .repeatForever(autoreverses: true)
-                        ){
-                           animatedHue.toggle()
-                        }
-                        withAnimation(
-                            .linear(duration: 15.0)
-                            
-                            .repeatForever(autoreverses: true)
-                        ){
-                           animatedPadding.toggle()
-                        }
+                        .repeatForever()
+                    ){
+                        animatedPosition.toggle()
+                        
                     }
-                    .mask(
-                        VStack {
-                            Text(failure.isEmpty ? loadingText : failureText)
-                                .font(
-                                    .system(size: 500)
-                                    .bold()
-                                    
-                                )
-                                .padding(.top, 20)
-                                .padding(10)
-                                //.padding(.leading, geometry.size.width * 0.03)
-                                .minimumScaleFactor(0.01)
-                                .multilineTextAlignment(.leading)
-                            
-                            if failure.isEmpty {
-                                Text("Keep this open, or they might fly away")
-                            } else {
-                                Text("You'll have to try again :P")
-                            }
-                            
-                            
-                        }
-                            .frame(maxWidth: geometry.size.width, maxHeight: .infinity)
-                            
+                    withAnimation(
+                        .linear(duration: 3.0)
                         
+                        .repeatForever(autoreverses: true)
+                    ){
+                        animatedHue.toggle()
+                    }
+                    withAnimation(
+                        .linear(duration: 15.0)
                         
-                            
-                    )
+                        .repeatForever(autoreverses: true)
+                    ){
+                        animatedPadding.toggle()
+                    }
                 }
+                .mask(
+                    VStack {
+                        Text(failure.isEmpty ? loadingText : failureText)
+                            .font(
+                                .system(size: 500)
+                                .bold()
+                                
+                            )
+                            .padding(.top, 20)
+                            .padding(10)
+                        //.padding(.leading, geometry.size.width * 0.03)
+                            .minimumScaleFactor(0.01)
+                            .multilineTextAlignment(.leading)
+                        
+                        if failure.isEmpty {
+                            Text("Keep this open, or they might fly away")
+                        } else {
+                            Text("You'll have to try again :P")
+                        }
+                        
+                        
+                    }
+                        .frame(maxWidth: geometry.size.width, maxHeight: .infinity)
+                    
+                    
+                    
+                    
+                )
+            }
         }
         
     }

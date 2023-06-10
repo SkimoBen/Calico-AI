@@ -33,6 +33,8 @@ struct DrawingView_UIView: UIViewRepresentable {
        // self.canvasView.delegate = context.coordinator
         self.canvasView.drawingPolicy = .anyInput
         
+        self.canvasView.backgroundColor = .white
+        
         picker.addObserver(canvasView)
         picker.setVisible(true, forFirstResponder: canvasView)
         canvasView.becomeFirstResponder()
