@@ -51,28 +51,14 @@ struct DrawingView_UIView: UIViewRepresentable {
                 canvasView.becomeFirstResponder()
                 DispatchQueue.main.async {
                     canvasView.tool = picker.selectedTool
-                    print("Inside Update UI View func | First Responder = true | Selected tool: \(picker.selectedTool)")
                 }
             }
         } else {
             DispatchQueue.main.async {
                 canvasView.resignFirstResponder()
-                print("Inside Update UI View func| First responder = false| Selected tool: \(picker.selectedTool)")
             }
         }
-        
-//        if viewModel.shouldBecomeFirstResponder == true {
-//            DispatchQueue.main.async {
-//                canvasView.becomeFirstResponder()
-//                canvasView.tool = picker.selectedTool
-//                print("Inside Update UI View func | First Responder = true | Selected tool: \(picker.selectedTool)")
-//            }
-//        } else {
-//            DispatchQueue.main.async {
-//                canvasView.resignFirstResponder()
-//                print("Inside Update UI View func| First responder = false| Selected tool: \(picker.selectedTool)")
-//            }
-//        }
+
 
     }
 }

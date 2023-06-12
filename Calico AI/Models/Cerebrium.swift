@@ -176,10 +176,20 @@ func sendIt(completion: @escaping (UIImage?) -> Void, failure: @escaping (String
                 }
 
                 UIImageWriteToSavedPhotosAlbum(processedImage, nil, nil, nil)
-
+                
+                //save the runtime data to user defaults:
+                let runTimeHelper = RunTimeHelper()
+                var userRunTime = runTimeHelper.getRunTime()
+                userRunTime.totalRunTime += DecodedData.runTimeMs / 1000
+                userRunTime.monthlyRunTime += DecodedData.runTimeMs / 1000
+                runTimeHelper.save(runTime: userRunTime)
+                
                 DispatchQueue.main.async {
                     completion(processedImage)
                     print("image saved to photos")
+                    print("Monthly run time: \(userRunTime.monthlyRunTime)")
+                    print("Total run time: \(userRunTime.totalRunTime)")
+                    
                 }
             }
         } catch {
@@ -208,77 +218,7 @@ struct CerebriumResponse: Codable {
     }
 }
 
-//old sendit
-/*
-func sendIt(completion: @escaping (UIImage?) -> Void) {
-    let decoder = JSONDecoder()
-    
 
-    //make the url for the call
-    guard let url = URL(string: "https://run.cerebrium.ai/controlnet-webhook/predict")
-    else {
-        return
-    }
-    
-    //this stuff formats the API call. Cerebrium takes curl requests but swift uses URLRequest. This formats the HTTP request properly
-    var request = URLRequest(url: url)
-    request.httpMethod = "POST"
-    request.addValue("public-4cd3d7e4bcc266780ffd", forHTTPHeaderField:"Authorization")
-    request.addValue("application/json", forHTTPHeaderField:"Content-Type")
-    request.httpBody = makeJsonPayload(cerebriumJSONObject: cerebriumJSONObject)
-    request.timeoutInterval = 1000
-    print(cerebriumJSONObject["prompt"]as Any)
-    print(cerebriumJSONObject["model"] as Any)
-    print("starting url session")
-    //start the URL session to make the call
-    URLSession.shared.dataTask(with: request) { (data, response, error) in
-        guard error == nil else { print(error!.localizedDescription); return }
-        guard let data = data else { print("Empty data"); return
-            
-        }
-        
-        do {
-            //get the data out of the JSON object
-            let DecodedData = try decoder.decode(CerebriumResponse.self, from: data)
-            
-            //retrieve the base64 string then turn it into data
-            
-            DecodedData.image.forEach { base64ImageString in
-                guard let base64ImageData = Data(base64Encoded: base64ImageString) else {
-                    print("Error decoding base64 image string")
-                    return
-                }
-                
-                guard let processedImage = UIImage(data: base64ImageData) else {
-                    print("Error creating UIImage from data")
-                    return
-                }
-                print(DecodedData.message)
-                // Save the UIImage to photos
-                UIImageWriteToSavedPhotosAlbum(processedImage, nil, nil, nil)
-                
-                DispatchQueue.main.async {
-                    completion(processedImage)
-                    // Do something to update the UI
-                    print("image saved to photos")
-                }
-            }
-            
-        } catch {
-            print("Error decoding JSON: \(error)")
-            print("Json Response: \(String(describing: response))")
-            
-            DispatchQueue.main.async {
-                // Call the completion handler with nil to indicate failure
-                completion(nil)
-            }
-        }
-        
-    }.resume()
-}
- */
-
-//JSON Codable structure for the Cerebrium API response
 
 
 

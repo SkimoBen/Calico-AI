@@ -14,19 +14,21 @@ struct ContentView: View {
     
     @State var DrawingView = DrawingView_UIView()
     @State var size: CGSize = .zero //size of canvas
-    @State var showPromptView = false //
-    @State var showPlayModalView = true
-    @State var syncAspectRatio = true
+    
     
     //for the API image
     @State var generatedImage: UIImage? = nil
     @State var generationFailure: String = ""
     @State private var updateView = false //workaround for button tap bug
-    //For the popup
+    
+    //For showing different views
     @State private var showingAlert = false
     @State private var showAIGenerationView = false
     @State var isImagePickerPresented = false
-    
+    @State var showPromptView = false
+    @State var showPlayModalView = true
+    @State var showProfileView = false
+    @State var showPaywallView = false
     //---AI variables
     @State var positivePromptState = ""
     @State var negativePromptState = ""
@@ -35,15 +37,13 @@ struct ContentView: View {
     @State var samplesState: Double = 30
     @State var guidanceState: Double = 7.5
     @State var seedState = "0"
-    
-
-
+    @State var syncAspectRatio = true
     var body: some View {
         
         ZStack {
             VStack {
                 
-                TopBarView(showPromptView: $showPromptView, isImagePickerPresented: $isImagePickerPresented, showingAlert: $showingAlert, updateView: $updateView)
+                TopBarView(showPromptView: $showPromptView, isImagePickerPresented: $isImagePickerPresented, showingAlert: $showingAlert, updateView: $updateView, showProfileView: $showProfileView, showPaywallView: $showPaywallView)
                 
                 
                 Spacer()
@@ -62,9 +62,7 @@ struct ContentView: View {
                         .saveSize(in: $size) //Size for the scribble.
                         .onAppear {
                             viewModel.shouldBecomeFirstResponder = true
-//                            if viewModel.background != nil || DrawingView.canvasView.drawing.bounds.isEmpty == false {
-//                                currentAspectRatio(viewModel: viewModel, size: size)
-//                            }
+
                             if AreImagesEmpty(viewModel: viewModel, drawing: DrawingView.drawing) == true {
                                 currentAspectRatio(viewModel: viewModel, size: size)
                                 syncAspectRatio = true
@@ -81,9 +79,7 @@ struct ContentView: View {
                     
             }
         }
-        .onAppear {
-            // viewModel.background = nil
-        }
+        //alert is for calling the API and switching to image gen view
         .alert(isPresented: $showingAlert) {
             Alert(title: Text("Generate Image?"), message: Text("Do you want to generate an image from your drawing? This will take ~1 minute"), primaryButton: .default(Text("Yes")) {
                 
@@ -95,6 +91,7 @@ struct ContentView: View {
                 imageWidth = widthState
                 samples = Int(samplesState)
                 guidance = roundToNearestHalf(number: guidanceState)
+                seed = Int(seedState) ?? 0
                 
                 //this is to switch pipelines if there's no image input for control net
                 if DrawingView.canvasView.drawing.bounds.isEmpty && viewModel.background == nil {
@@ -124,7 +121,10 @@ struct ContentView: View {
                 })
             }
         }
-        
+        .fullScreenCover(isPresented: $showProfileView) {
+            ProfileView()
+        }
+        // PROMPT VIEW
         .sheet(isPresented: $showPromptView) {
             PromptView(syncAspectRatio: $syncAspectRatio, positivePromptState: $positivePromptState, negativePromptState: $negativePromptState, widthState: $widthState, heightState: $heightState, samplesState: $samplesState, guidanceState: $guidanceState, seedState: $seedState)
                 .clearModalBackground()
@@ -146,7 +146,10 @@ struct ContentView: View {
                     }
                 }
         }
-        
+        .sheet(isPresented: $showPaywallView) {
+            Paywall()
+                .clearModalBackground()
+        }
     }
     
     func AreImagesEmpty(viewModel: ViewModelClass, drawing: PKDrawing) -> Bool {
@@ -215,6 +218,9 @@ struct TopBarView: View {
     @Binding var isImagePickerPresented: Bool
     @Binding var showingAlert: Bool
     @Binding var updateView: Bool
+    @Binding var showProfileView: Bool
+    @Binding var showPaywallView: Bool
+    
     var body: some View {
         HStack {
             //PromptView button
@@ -247,7 +253,7 @@ struct TopBarView: View {
             Spacer()
             //Pencil menue view for sketch vs image picker
             Menu {
-                PencilMenuView(showingAlert: $showingAlert, isImagePickerPresented: $isImagePickerPresented)
+                PencilMenuView(showingAlert: $showingAlert, isImagePickerPresented: $isImagePickerPresented, showProfileView: $showProfileView, showPaywallView: $showPaywallView)
             }label: {
                 Image(systemName: "pencil.circle")
                     .resizable()
@@ -266,9 +272,10 @@ struct PencilMenuView: View {
     @Binding var showingAlert: Bool
     @EnvironmentObject var viewModel: ViewModelClass
     @Binding var isImagePickerPresented: Bool
-    
+    @Binding var showProfileView: Bool
+    @Binding var showPaywallView: Bool
     var body: some View {
-        
+        //sketch button
         Button(action: {
             withAnimation {
                 viewModel.shouldBecomeFirstResponder = true
@@ -302,30 +309,14 @@ struct PencilMenuView: View {
             
         })
         
+        //Account info button
         Button(action: {
-            
-           var image: UIImage
-            if viewModel.background == nil {
-               print("no pixxx")
-                preProcessor = "scribble"
-            } else {
-                if let compressedImage = compressImage(viewModel.background!, toByte: 256 * 256) { // for 250kb size
-                    //resize it so it fits the output dimensions
-                    print("max size: \(max(imageHeight, imageWidth))")
-                    let resizedImage = resizeImage(image: compressedImage, targetLength: CGFloat(max(imageHeight, imageWidth)))
-                    
-                    image = resizedImage
-                    preProcessor = "canny"
-                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-                } else {
-                    // handle error, e.g., by setting image to a default value or returning
-                    return
-                }
-            }
-            
+            showPaywallView = true
         }, label: {
-            Text("Resize Image")
+            Text("Account Info")
+            Image(systemName: "person.circle")
         })
+
         
     }
 }
@@ -337,3 +328,31 @@ struct ContentView_Previews: PreviewProvider {
             .environmentObject(ViewModelClass())
     }
 }
+
+
+// The resize image button:
+
+//        Button(action: {
+//
+//           var image: UIImage
+//            if viewModel.background == nil {
+//               print("no pixxx")
+//                preProcessor = "scribble"
+//            } else {
+//                if let compressedImage = compressImage(viewModel.background!, toByte: 256 * 256) { // for 250kb size
+//                    //resize it so it fits the output dimensions
+//                    print("max size: \(max(imageHeight, imageWidth))")
+//                    let resizedImage = resizeImage(image: compressedImage, targetLength: CGFloat(max(imageHeight, imageWidth)))
+//
+//                    image = resizedImage
+//                    preProcessor = "canny"
+//                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+//                } else {
+//                    // handle error, e.g., by setting image to a default value or returning
+//                    return
+//                }
+//            }
+//
+//        }, label: {
+//            Text("Resize Image")
+//        })

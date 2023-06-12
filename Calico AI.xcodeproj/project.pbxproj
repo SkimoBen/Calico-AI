@@ -24,6 +24,11 @@
 		F7F1D1A42A339E970088201F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D1A22A339E970088201F /* Extensions.swift */; };
 		F7F1D1A52A339E970088201F /* SizeFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D1A32A339E970088201F /* SizeFunctions.swift */; };
 		F7F1D1A82A339EC20088201F /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D1A72A339EC20088201F /* ViewModel.swift */; };
+		F7F1D1CE2A35496F0088201F /* SavedInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D1CD2A35496F0088201F /* SavedInfo.swift */; };
+		F7F1D1D02A3636A10088201F /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D1CF2A3636A10088201F /* ProfileView.swift */; };
+		F7F1D1D32A363B5D0088201F /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = F7F1D1D22A363B5D0088201F /* RevenueCat */; };
+		F7F1D1D62A363B9B0088201F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7F1D1D52A363B9B0088201F /* StoreKit.framework */; };
+		F7F1D1D82A365D7C0088201F /* Paywall.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D1D72A365D7C0088201F /* Paywall.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +50,10 @@
 		F7F1D1A22A339E970088201F /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		F7F1D1A32A339E970088201F /* SizeFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeFunctions.swift; sourceTree = "<group>"; };
 		F7F1D1A72A339EC20088201F /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		F7F1D1CD2A35496F0088201F /* SavedInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedInfo.swift; sourceTree = "<group>"; };
+		F7F1D1CF2A3636A10088201F /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		F7F1D1D52A363B9B0088201F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		F7F1D1D72A365D7C0088201F /* Paywall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paywall.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +61,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7F1D1D32A363B5D0088201F /* RevenueCat in Frameworks */,
+				F7F1D1D62A363B9B0088201F /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +74,7 @@
 			children = (
 				F7F1D17A2A339AA60088201F /* Calico AI */,
 				F7F1D1792A339AA60088201F /* Products */,
+				F7F1D1D42A363B9B0088201F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -115,6 +127,8 @@
 				F7F1D1922A339D5F0088201F /* FocusFieldTest.swift */,
 				F7F1D1912A339D5F0088201F /* ImagePickerView.swift */,
 				F7F1D1902A339D5F0088201F /* UserImageView.swift */,
+				F7F1D1CF2A3636A10088201F /* ProfileView.swift */,
+				F7F1D1D72A365D7C0088201F /* Paywall.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -125,6 +139,7 @@
 				F7F1D1992A339DF10088201F /* Cerebrium Rate Limit.swift */,
 				F7F1D19B2A339DF10088201F /* Cerebrium.swift */,
 				F7F1D19A2A339DF10088201F /* CerebriumCustomSD.swift */,
+				F7F1D1CD2A35496F0088201F /* SavedInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -136,6 +151,14 @@
 				F7F1D1A32A339E970088201F /* SizeFunctions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F7F1D1D42A363B9B0088201F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F7F1D1D52A363B9B0088201F /* StoreKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -154,6 +177,9 @@
 			dependencies = (
 			);
 			name = "Calico AI";
+			packageProductDependencies = (
+				F7F1D1D22A363B5D0088201F /* RevenueCat */,
+			);
 			productName = "Calico AI";
 			productReference = F7F1D1782A339AA60088201F /* Calico AI.app */;
 			productType = "com.apple.product-type.application";
@@ -182,6 +208,9 @@
 				Base,
 			);
 			mainGroup = F7F1D16F2A339AA60088201F;
+			packageReferences = (
+				F7F1D1D12A363B5C0088201F /* XCRemoteSwiftPackageReference "purchases-ios" */,
+			);
 			productRefGroup = F7F1D1792A339AA60088201F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -217,6 +246,9 @@
 				F7F1D19C2A339DF10088201F /* Cerebrium Rate Limit.swift in Sources */,
 				F7F1D19D2A339DF10088201F /* CerebriumCustomSD.swift in Sources */,
 				F7F1D1962A339D5F0088201F /* ImagePickerView.swift in Sources */,
+				F7F1D1D02A3636A10088201F /* ProfileView.swift in Sources */,
+				F7F1D1D82A365D7C0088201F /* Paywall.swift in Sources */,
+				F7F1D1CE2A35496F0088201F /* SavedInfo.swift in Sources */,
 				F7F1D1A42A339E970088201F /* Extensions.swift in Sources */,
 				F7F1D1A82A339EC20088201F /* ViewModel.swift in Sources */,
 				F7F1D1932A339D5F0088201F /* DrawingView.swift in Sources */,
@@ -429,6 +461,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F7F1D1D12A363B5C0088201F /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F7F1D1D22A363B5D0088201F /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F7F1D1D12A363B5C0088201F /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCat;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F7F1D1702A339AA60088201F /* Project object */;
 }

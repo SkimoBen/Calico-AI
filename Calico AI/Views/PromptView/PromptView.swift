@@ -65,15 +65,6 @@ struct PromptView: View {
                                             .padding()
                                     })
                                     
-                                    //                                .popover(isPresented: $isInfoShowing, attachmentAnchor: .point(.center), content: {
-                                    //                                    PromptInfoView()
-                                    //                                       // .background(Color.red.opacity(1))
-                                    //                                       // .background(Material.ultraThin.blendMode(.multiply).opacity(0.1))
-                                    //
-                                    //
-                                    //                                })
-                                    
-                                    
                                 }
                                 
                                 
@@ -193,7 +184,7 @@ struct PromptView: View {
                             HStack {
                                 Text("Samples: \(Int(samplesState))")
                                     .frame(maxWidth: 130, alignment: .leading)
-                                Slider(value: $samplesState, in: 1...50)
+                                Slider(value: $samplesState, in: 1...100)
                                 
                                 
                             }
