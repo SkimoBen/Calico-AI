@@ -16,6 +16,7 @@ class ViewModelClass: ObservableObject {
     @Published var drawing: PKDrawing = PKDrawing()
     @Published var shouldBecomeFirstResponder: Bool = true
     @Published var useTxt2Img: Bool = true
+    @Published var enhancedPrompt: String = "" 
 }
 
 class UserViewModel: ObservableObject {

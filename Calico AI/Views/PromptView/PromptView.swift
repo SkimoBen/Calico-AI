@@ -67,12 +67,24 @@ struct PromptView: View {
                                     
                                 }
                                 
+                                HStack {
+                                    Text("Positive Prompt")
+                                        .font(.callout)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.top, 2)
+                                        .padding(.leading, 25)
+                                    
+                                    Button(action: {
+                                        positivePrompt = positivePromptState
+                                        EnhancePrompt(viewModel: viewModel) {
+                                            positivePromptState = viewModel.enhancedPrompt
+                                        }
+                                    }, label: {
+                                        Text("Enhance Prompt")
+                                    })
+                                    .padding(.trailing, 25)
+                                }
                                 
-                                Text("Positive Prompt")
-                                    .font(.callout)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(.top, 2)
-                                    .padding(.leading, 25)
                                 
                                 TextEditor(text: $positivePromptState)
                                     .focused($isFocused)

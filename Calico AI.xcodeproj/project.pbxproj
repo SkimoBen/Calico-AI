@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F7AF0D4D2A39226400698BC6 /* promptEnhancer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AF0D4C2A39226400698BC6 /* promptEnhancer.swift */; };
+		F7AF0D4F2A3924A500698BC6 /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AF0D4E2A3924A500698BC6 /* Tokenizer.swift */; };
+		F7AF0D522A3924EB00698BC6 /* ByteEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AF0D512A3924EB00698BC6 /* ByteEncoder.swift */; };
+		F7AF0D542A39252800698BC6 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AF0D532A39252800698BC6 /* Math.swift */; };
+		F7AF0D562A39256F00698BC6 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AF0D552A39256F00698BC6 /* Utils.swift */; };
+		F7AF0D582A3925C400698BC6 /* MLMultiArray+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AF0D572A3925C400698BC6 /* MLMultiArray+Utils.swift */; };
+		F7AF0D5C2A3928E500698BC6 /* PromptEnhancerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AF0D5B2A3928E500698BC6 /* PromptEnhancerTest.swift */; };
+		F7AF0D5E2A392D8300698BC6 /* gpt2-merges.txt in Resources */ = {isa = PBXBuildFile; fileRef = F7AF0D5D2A392D8300698BC6 /* gpt2-merges.txt */; };
+		F7AF0D602A392E0A00698BC6 /* gpt2-vocab.json in Resources */ = {isa = PBXBuildFile; fileRef = F7AF0D5F2A392E0A00698BC6 /* gpt2-vocab.json */; };
+		F7AF0D622A396EEE00698BC6 /* PromptEnhancer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AF0D612A396EEE00698BC6 /* PromptEnhancer.swift */; };
 		F7F1D17C2A339AA60088201F /* Calico_AIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D17B2A339AA60088201F /* Calico_AIApp.swift */; };
 		F7F1D17E2A339AA60088201F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D17D2A339AA60088201F /* ContentView.swift */; };
 		F7F1D1802A339AA90088201F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7F1D17F2A339AA90088201F /* Assets.xcassets */; };
@@ -32,6 +42,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F7AF0D4C2A39226400698BC6 /* promptEnhancer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = promptEnhancer.swift; sourceTree = "<group>"; };
+		F7AF0D4E2A3924A500698BC6 /* Tokenizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tokenizer.swift; sourceTree = "<group>"; };
+		F7AF0D512A3924EB00698BC6 /* ByteEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByteEncoder.swift; sourceTree = "<group>"; };
+		F7AF0D532A39252800698BC6 /* Math.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
+		F7AF0D552A39256F00698BC6 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		F7AF0D572A3925C400698BC6 /* MLMultiArray+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MLMultiArray+Utils.swift"; sourceTree = "<group>"; };
+		F7AF0D5B2A3928E500698BC6 /* PromptEnhancerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptEnhancerTest.swift; sourceTree = "<group>"; };
+		F7AF0D5D2A392D8300698BC6 /* gpt2-merges.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "gpt2-merges.txt"; sourceTree = "<group>"; };
+		F7AF0D5F2A392E0A00698BC6 /* gpt2-vocab.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "gpt2-vocab.json"; sourceTree = "<group>"; };
+		F7AF0D612A396EEE00698BC6 /* PromptEnhancer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptEnhancer.swift; sourceTree = "<group>"; };
 		F7F1D1782A339AA60088201F /* Calico AI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Calico AI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7F1D17B2A339AA60088201F /* Calico_AIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calico_AIApp.swift; sourceTree = "<group>"; };
 		F7F1D17D2A339AA60088201F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -69,6 +89,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F7AF0D502A3924AF00698BC6 /* PromptEnhancerModel */ = {
+			isa = PBXGroup;
+			children = (
+				F7AF0D5B2A3928E500698BC6 /* PromptEnhancerTest.swift */,
+				F7AF0D5D2A392D8300698BC6 /* gpt2-merges.txt */,
+				F7AF0D4C2A39226400698BC6 /* promptEnhancer.swift */,
+				F7AF0D4E2A3924A500698BC6 /* Tokenizer.swift */,
+				F7AF0D512A3924EB00698BC6 /* ByteEncoder.swift */,
+				F7AF0D532A39252800698BC6 /* Math.swift */,
+				F7AF0D552A39256F00698BC6 /* Utils.swift */,
+				F7AF0D572A3925C400698BC6 /* MLMultiArray+Utils.swift */,
+				F7AF0D5F2A392E0A00698BC6 /* gpt2-vocab.json */,
+			);
+			path = PromptEnhancerModel;
+			sourceTree = "<group>";
+		};
 		F7F1D16F2A339AA60088201F = {
 			isa = PBXGroup;
 			children = (
@@ -96,6 +132,7 @@
 				F7F1D19F2A339DF90088201F /* Models */,
 				F7F1D1812A339AA90088201F /* Preview Content */,
 				F7F1D17F2A339AA90088201F /* Assets.xcassets */,
+				F7AF0D502A3924AF00698BC6 /* PromptEnhancerModel */,
 			);
 			path = "Calico AI";
 			sourceTree = "<group>";
@@ -140,6 +177,7 @@
 				F7F1D19B2A339DF10088201F /* Cerebrium.swift */,
 				F7F1D19A2A339DF10088201F /* CerebriumCustomSD.swift */,
 				F7F1D1CD2A35496F0088201F /* SavedInfo.swift */,
+				F7AF0D612A396EEE00698BC6 /* PromptEnhancer.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -225,7 +263,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7AF0D602A392E0A00698BC6 /* gpt2-vocab.json in Resources */,
 				F7F1D1832A339AA90088201F /* Preview Assets.xcassets in Resources */,
+				F7AF0D5E2A392D8300698BC6 /* gpt2-merges.txt in Resources */,
 				F7F1D1802A339AA90088201F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -240,21 +280,29 @@
 				F7F1D1942A339D5F0088201F /* AIGenerationView.swift in Sources */,
 				F7F1D1952A339D5F0088201F /* UserImageView.swift in Sources */,
 				F7F1D1A52A339E970088201F /* SizeFunctions.swift in Sources */,
+				F7AF0D522A3924EB00698BC6 /* ByteEncoder.swift in Sources */,
 				F7F1D18C2A339BC40088201F /* PromptView.swift in Sources */,
 				F7F1D17E2A339AA60088201F /* ContentView.swift in Sources */,
+				F7AF0D542A39252800698BC6 /* Math.swift in Sources */,
 				F7F1D19E2A339DF10088201F /* Cerebrium.swift in Sources */,
 				F7F1D19C2A339DF10088201F /* Cerebrium Rate Limit.swift in Sources */,
+				F7AF0D5C2A3928E500698BC6 /* PromptEnhancerTest.swift in Sources */,
 				F7F1D19D2A339DF10088201F /* CerebriumCustomSD.swift in Sources */,
 				F7F1D1962A339D5F0088201F /* ImagePickerView.swift in Sources */,
+				F7AF0D4F2A3924A500698BC6 /* Tokenizer.swift in Sources */,
 				F7F1D1D02A3636A10088201F /* ProfileView.swift in Sources */,
 				F7F1D1D82A365D7C0088201F /* Paywall.swift in Sources */,
 				F7F1D1CE2A35496F0088201F /* SavedInfo.swift in Sources */,
+				F7AF0D4D2A39226400698BC6 /* promptEnhancer.swift in Sources */,
 				F7F1D1A42A339E970088201F /* Extensions.swift in Sources */,
 				F7F1D1A82A339EC20088201F /* ViewModel.swift in Sources */,
 				F7F1D1932A339D5F0088201F /* DrawingView.swift in Sources */,
+				F7AF0D622A396EEE00698BC6 /* PromptEnhancer.swift in Sources */,
+				F7AF0D582A3925C400698BC6 /* MLMultiArray+Utils.swift in Sources */,
 				F7F1D17C2A339AA60088201F /* Calico_AIApp.swift in Sources */,
 				F7F1D1972A339D5F0088201F /* FocusFieldTest.swift in Sources */,
 				F7F1D18A2A339BB40088201F /* PromptInfoView.swift in Sources */,
+				F7AF0D562A39256F00698BC6 /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

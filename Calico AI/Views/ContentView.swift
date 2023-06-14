@@ -122,6 +122,7 @@ struct ContentView: View {
             }
         }
         .fullScreenCover(isPresented: $showProfileView) {
+            
             ProfileView()
         }
         // PROMPT VIEW
@@ -148,7 +149,7 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showPaywallView) {
             Paywall()
-                .clearModalBackground()
+               .clearModalBackground()
         }
     }
     
