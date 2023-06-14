@@ -19,6 +19,7 @@ var imageWidth = 512
 var samples = 30
 var guidance = 7.5
 var seed = 0
+var strength = 0.3
 
 
 //runwayml/stable-diffusion-v1-5
@@ -40,7 +41,7 @@ var cerebriumJSONObject: [String: Any] = [
     "high_threshold": 200,
     //"image_resolution": 512
     "preProcessor": "text2img",
-    
+    "strength": strength
     
 ]
 

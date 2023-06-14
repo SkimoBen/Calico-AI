@@ -13,6 +13,7 @@ struct AIGenerationView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var image: UIImage?
     @Binding var failure: String
+    @Binding var showAIGenerationView: Bool
     
     var body: some View {
         
@@ -32,6 +33,7 @@ struct AIGenerationView: View {
                     Button("Back") {
                         image = nil
                         failure = ""
+                        showAIGenerationView = false
                         dismiss()
                     }
                     .padding(.leading, 15)
@@ -182,6 +184,6 @@ struct AIGenerationView_Previews: PreviewProvider {
     @State static var dummyImage: UIImage? = nil
     @State static var dummyFailure: String = ""
     static var previews: some View {
-        AIGenerationView(image: $dummyImage, failure: $dummyFailure)
+        AIGenerationView(image: $dummyImage, failure: $dummyFailure, showAIGenerationView: .constant(true))
     }
 }

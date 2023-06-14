@@ -37,7 +37,7 @@ struct ContentView: View {
     @State var samplesState: Double = 30
     @State var guidanceState: Double = 7.5
     @State var seedState = "0"
-    @State var syncAspectRatio = true
+    @State var syncAspectRatio = false
     var body: some View {
         
         ZStack {
@@ -110,7 +110,7 @@ struct ContentView: View {
         }
         //Bottom of the ZStack, this shows the image generation view.
         .fullScreenCover(isPresented: $showAIGenerationView) {
-            AIGenerationView(image: $generatedImage, failure: $generationFailure).onAppear {
+            AIGenerationView(image: $generatedImage, failure: $generationFailure, showAIGenerationView: $showAIGenerationView).onAppear {
                 sendIt(completion: { (image) in
                     self.generatedImage = image
                 }, failure: { (error) in
@@ -123,7 +123,7 @@ struct ContentView: View {
         }
         .fullScreenCover(isPresented: $showProfileView) {
             
-            ProfileView()
+            ProfileView(showProfileView: $showProfileView)
         }
         // PROMPT VIEW
         .sheet(isPresented: $showPromptView) {
@@ -145,6 +145,7 @@ struct ContentView: View {
                     if viewModel.background == nil {
                         viewModel.shouldBecomeFirstResponder = true
                     }
+                    showPromptView = false
                 }
         }
         .sheet(isPresented: $showPaywallView) {
@@ -187,7 +188,7 @@ struct ContentView: View {
                 let resizedImage = resizeImage(image: compressedImage, targetLength: CGFloat(max(imageHeight, imageWidth)))
                 
                 image = resizedImage
-                preProcessor = "canny"
+                preProcessor = "img2img"
             } else {
                 // handle error, e.g., by setting image to a default value or returning
                 return
@@ -221,12 +222,14 @@ struct TopBarView: View {
     @Binding var updateView: Bool
     @Binding var showProfileView: Bool
     @Binding var showPaywallView: Bool
+    @State private var isMenuOpen = false
     
     var body: some View {
         HStack {
             //PromptView button
             Button(action: {
-                showPromptView.toggle()
+                isMenuOpen = false
+                showPromptView = true
             }, label: {
         
                 Image(systemName: "slider.horizontal.3")
@@ -261,6 +264,17 @@ struct TopBarView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 30, height: 30)
                     .padding(.trailing, 40)
+            }
+            .id(isMenuOpen) // Use the 'isMenuOpen' state to control the Menu's identity
+            .onChange(of: isMenuOpen) { newValue in
+                if !newValue {
+                    // If the Menu has been forced to close, reset its identity so it can be opened again
+                    isMenuOpen = true
+                }
+            }
+            .onTapGesture {
+                // The Menu has been tapped, so set 'isMenuOpen' to true
+                isMenuOpen = true
             }
             
         }

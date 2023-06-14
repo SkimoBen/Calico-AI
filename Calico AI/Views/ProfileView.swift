@@ -10,13 +10,13 @@ import SwiftUI
 struct ProfileView: View {
     //Allow the user to dismiss the view
     @Environment(\.dismiss) var dismiss
-    
+    @Binding var showProfileView:  Bool
     var body: some View {
         //topbar
         VStack {
             HStack {
                 Button("Back") {
-        
+                    showProfileView = false
                     dismiss()
                 }
                 .padding(.leading, 15)
@@ -31,6 +31,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        ProfileView(showProfileView: .constant(true))
     }
 }

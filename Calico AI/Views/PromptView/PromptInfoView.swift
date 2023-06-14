@@ -13,11 +13,6 @@ struct PromptInfoView: View {
     @Binding var isInfoShowing: Bool
     var body: some View {
         VStack {
-            
-            
-            
-           // .background(.clear)
-            
             ScrollView {
                 
                 VStack(alignment: .leading) {

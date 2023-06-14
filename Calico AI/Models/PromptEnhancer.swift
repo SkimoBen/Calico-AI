@@ -12,6 +12,10 @@ var cerebriumPromptEnhancerJSONObject: [String: Any] = [
     "prompt": "\(positivePrompt)"
 ]
 
+func updateCerebriumPromptEnhancerJSONObject() {
+    cerebriumPromptEnhancerJSONObject["prompt"] = positivePrompt
+}
+
 func EnhancePrompt(viewModel: ViewModelClass, completion: @escaping () -> Void) {
     let decoder = JSONDecoder()
     
@@ -47,6 +51,8 @@ func EnhancePrompt(viewModel: ViewModelClass, completion: @escaping () -> Void) 
             DecodedData.enhancedPrompt.forEach { prompt in
                 DispatchQueue.main.async {
                     viewModel.enhancedPrompt = prompt
+                    print(prompt)
+                    completion()
                 }
                 
                 

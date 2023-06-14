@@ -76,6 +76,7 @@ struct PromptView: View {
                                     
                                     Button(action: {
                                         positivePrompt = positivePromptState
+                                        updateCerebriumPromptEnhancerJSONObject()
                                         EnhancePrompt(viewModel: viewModel) {
                                             positivePromptState = viewModel.enhancedPrompt
                                         }
@@ -175,6 +176,7 @@ struct PromptView: View {
                                 }
                             }
                             .padding([.leading, .trailing], 25)
+                            
                         }
                         
                         //Advanced Settings Group
@@ -257,11 +259,10 @@ struct PromptView: View {
                         }
                     }
                 }
-                
                 .clearModalBackground()
                 
             }
-            //.clearModalBackground()
+            .clearModalBackground()
             .background(Material.ultraThin)
         }
     }
