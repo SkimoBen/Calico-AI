@@ -33,7 +33,10 @@ struct DrawingView_UIView: UIViewRepresentable {
        // self.canvasView.delegate = context.coordinator
         self.canvasView.drawingPolicy = .anyInput
         
-        self.canvasView.backgroundColor = .white
+        
+        self.canvasView.backgroundColor = .clear
+        self.canvasView.isOpaque = false
+        
         
         picker.addObserver(canvasView)
         picker.setVisible(true, forFirstResponder: canvasView)
@@ -45,7 +48,7 @@ struct DrawingView_UIView: UIViewRepresentable {
         picker.addObserver(canvasView)
         picker.setVisible(true, forFirstResponder: canvasView)
         
-        //from chatGPT
+        //from chatGPT - it makes sure the canvas becomes the active element. 
         if viewModel.shouldBecomeFirstResponder == true {
             DispatchQueue.main.async {
                 canvasView.becomeFirstResponder()

@@ -22,22 +22,28 @@ class ViewModelClass: ObservableObject {
 
 
 class UserViewModel: ObservableObject {
-    @Published var isApprentice = false
-    @Published var isSorcerer = false
-    @Published var isIllusionist = false //DONT FORGET TO SET FALSE
-    @Published var isPurchasing = false
+//    @Published var isApprentice = false
+//    @Published var isSorcerer = false
+//    @Published var isIllusionist = false ///DONT   FORGET   TO   SET   FALSE
+//    @Published var isPurchasing = false
+    @Published var currentUserEntitlements: PermissionsStruct = UserEntitlements().Illusionist
     init() {
-        //initialize the UserViewModel by calling the Revenue Cat DB to check for the users entitlement. Entitlements control the permissions inside the app. 
+        ///initialize the UserViewModel by calling the Revenue Cat DB to check for the users entitlement. Entitlements control the permissions inside the app.
         Purchases.shared.getCustomerInfo { (customerInfo, error) in
             if customerInfo?.entitlements.all["Apprentice"]?.isActive == true {
-                // User is "Apprentice"
-                self.isApprentice = true
+                
+                /// User is "Apprentice"
+                self.currentUserEntitlements = UserEntitlements().Apprentice
                 
             } else if (customerInfo?.entitlements.all["Sorcerer"]?.isActive == true ) {
-                self.isSorcerer = true
+                
+                /// User is "Sorcerer"
+                self.currentUserEntitlements = UserEntitlements().Sorcerer
                 
             } else if (customerInfo?.entitlements.all["Illusionist"]?.isActive == true ) {
-                self.isIllusionist = true
+                
+                /// User is "Illusionist
+                self.currentUserEntitlements = UserEntitlements().Illusionist
             }
         }
         

@@ -11,6 +11,8 @@ import PencilKit
 
 struct ContentView: View {
     @EnvironmentObject var viewModel: ViewModelClass //for the background image
+    @EnvironmentObject var userViewModel: UserViewModel
+    @Environment(\.colorScheme) var colorScheme
     
     @State var DrawingView = DrawingView_UIView()
     @State var size: CGSize = .zero //size of canvas
@@ -19,7 +21,7 @@ struct ContentView: View {
     //for the API image
     @State var generatedImage: UIImage? = nil
     @State var generationFailure: String = ""
-    @State private var updateView = false //workaround for button tap bug
+    //@State private var updateView = false //workaround for button tap bug
     
     //For showing different views
     @State private var showingAlert = false
@@ -47,12 +49,15 @@ struct ContentView: View {
         
         ZStack {
             VStack {
+                //DEBUG: Button for random stuff
+//                Button("save"){
+//                    saveDrawing()
+//                }
+//                .padding(.top,20)
+                
                 //StatusView()
-                
-                TopBarView(showPromptView: $showPromptView, isImagePickerPresented: $isImagePickerPresented, showingAlert: $showingAlert, updateView: $updateView, showProfileView: $showProfileView, showPaywallView: $showPaywallView)
-                    
-                
-                Spacer()
+   
+                //Spacer()
                    
                 if viewModel.background != nil {
                     
@@ -85,12 +90,35 @@ struct ContentView: View {
                         }
                 }
             }
-            .padding(.top, -10)
-            .background(.white)
+            .padding(.top, -18)
+            //.background(.red)
             if (isImagePickerPresented) {
                 ImagePicker(isImagePickerPresented: $isImagePickerPresented, viewModel: viewModel)
-                    
+                
             }
+            //MARK: Modal section
+            VStack {
+                HStack {
+                    EditorsButtonsView(showingAlert: $showingAlert, isImagePickerPresented: $isImagePickerPresented, showProfileView: $showProfileView, showPaywallView: $showPaywallView, showPromptView: $showPromptView)
+                        .shadow(color: .primary.opacity(0.5), radius: 10 )
+                    Spacer() //fill space between elements
+                    
+                    Button(action: {
+                        showPaywallView.toggle()
+                    }, label: {
+                        EntitlementsView()
+                            .shadow(color: userViewModel.currentUserEntitlements.accentColour[0].opacity(0.5), radius: 5 )
+                    })
+                    
+                    Spacer()
+                    
+                    RightMenuView(showingAlert: $showingAlert)
+                        .shadow(color: .primary.opacity(0.5), radius: 10 )
+                }
+                Spacer() //fill space on the bottom
+            }
+            
+            
         }
         //alert is for calling the API and switching to image gen view
         .alert(isPresented: $showingAlert) {
@@ -176,26 +204,48 @@ struct ContentView: View {
         return true
     }
     
-    //Functions which should be removed from the view but I would need to pass in the DrawingView.
-    //function to save the drawing to photos
-    func saveDrawing() {
-        //define the dimensions of the drawing.
+    //MARK: Functions which should be removed from the view but I would need to pass in the DrawingView.
+    //function to save the drawing to photos. NOT USED CURRENTLY- was for testing purposes.
+    func saveDrawing() -> UIImage {
+        // Define the dimensions of the drawing.
         let imgRect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         
-        //create image from the drawing, scale controls resolution.
-        let image = DrawingView.canvasView.drawing.image(from: imgRect, scale: 4.0)
-        //save to photo library
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        // Create an image from the drawing with a scale that controls resolution.
+        let drawingImage = DrawingView.canvasView.drawing.image(from: imgRect, scale: 4.0)
+
+        // Create an image representation of black or white background depending on system colours.
+        let background = UIImage(color: colorScheme == .dark ? .black : .white, size: imgRect.size)
+        
+        // Begin a new image context.
+        UIGraphicsBeginImageContextWithOptions(imgRect.size, false, 4.0)
+        
+        // Draw the black background and the drawing.
+        background?.draw(in: imgRect)
+        drawingImage.draw(in: imgRect)
+        
+        // Retrieve the combined image.
+        let combinedImage = UIGraphicsGetImageFromCurrentImageContext()
+
+        // End the image context.
+        UIGraphicsEndImageContext()
+        
+        // Save to photo library.
+        if let finalImage = combinedImage {
+            
+            UIImageWriteToSavedPhotosAlbum(finalImage, nil, nil, nil)
+            return finalImage
+        }
+        return UIImage()
     }
     
     func returnBase64Image(completion: @escaping () -> Void) {
-        //define the dimensions of the drawing.
-        let imgRect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+
         let image: UIImage
         
         //if there is a photo, use photo, otherwise use the scribble
         if viewModel.background == nil {
-            image = DrawingView.canvasView.drawing.image(from: imgRect, scale: 4.0)
+            //image = DrawingView.canvasView.drawing.image(from: imgRect, scale: 4.0)
+            image = saveDrawing()
             preProcessor = "scribble"
         } else {
             if let compressedImage = compressImage(viewModel.background!, toByte: 256 * 256) { // for 250kb size
@@ -219,7 +269,7 @@ struct ContentView: View {
             }
         }
         //DEBUG: save image here for debugging
-        //UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
         let jpegData = image.jpegData(compressionQuality: 1)
         
         
@@ -248,6 +298,7 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
             .environmentObject(ViewModelClass())
+            .environmentObject(UserViewModel())
     }
 }
 

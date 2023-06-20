@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F751CB992A4243AE00317923 /* Permissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F751CB982A4243AE00317923 /* Permissions.swift */; };
 		F7AF0D622A396EEE00698BC6 /* PromptEnhancer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AF0D612A396EEE00698BC6 /* PromptEnhancer.swift */; };
 		F7AF0D642A3BA6FC00698BC6 /* TopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AF0D632A3BA6FC00698BC6 /* TopBarView.swift */; };
 		F7AF0D662A3CBFB900698BC6 /* EasyNegative.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AF0D652A3CBFB900698BC6 /* EasyNegative.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F751CB982A4243AE00317923 /* Permissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Permissions.swift; sourceTree = "<group>"; };
 		F7AF0D612A396EEE00698BC6 /* PromptEnhancer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptEnhancer.swift; sourceTree = "<group>"; };
 		F7AF0D632A3BA6FC00698BC6 /* TopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarView.swift; sourceTree = "<group>"; };
 		F7AF0D652A3CBFB900698BC6 /* EasyNegative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyNegative.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				F7F1D1A72A339EC20088201F /* ViewModel.swift */,
+				F751CB982A4243AE00317923 /* Permissions.swift */,
 				F7F1D17B2A339AA60088201F /* Calico_AIApp.swift */,
 				F7F1D1982A339DE00088201F /* Views */,
 				F7F1D1A62A339EA70088201F /* Extensions */,
@@ -261,6 +264,7 @@
 				F7F1D19D2A339DF10088201F /* CerebriumCustomSD.swift in Sources */,
 				F7F1D1962A339D5F0088201F /* ImagePickerView.swift in Sources */,
 				F7F1D1D02A3636A10088201F /* ProfileView.swift in Sources */,
+				F751CB992A4243AE00317923 /* Permissions.swift in Sources */,
 				F7AF0D642A3BA6FC00698BC6 /* TopBarView.swift in Sources */,
 				F7F1D1D82A365D7C0088201F /* Paywall.swift in Sources */,
 				F7F1D1CE2A35496F0088201F /* SavedInfo.swift in Sources */,

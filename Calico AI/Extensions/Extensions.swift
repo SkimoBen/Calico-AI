@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftUI
+import PencilKit
+
 
 
 func ChooseEndpoint(preProcessor: String) -> String {
@@ -156,7 +158,30 @@ func delay(_ delay: Double, closure: @escaping () -> Void) {
     DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
 }
 
+//for saving drawings made in dark mode
+func thumbnail(drawing: PKDrawing, thumbnailRect: CGRect, traitCollection: UITraitCollection) -> UIImage {
 
+    var image = UIImage()
+    traitCollection.performAsCurrent {
+        image = drawing.image(from: thumbnailRect, scale: 2.0)
+    }
+    return image
+}
+
+// Extend UIImage to create an image from a single color.
+extension UIImage {
+    convenience init?(color: UIColor, size: CGSize) {
+        UIGraphicsBeginImageContextWithOptions(size, false, 1)
+        color.set()
+        let ctx = UIGraphicsGetCurrentContext()!
+        ctx.fill(CGRect(origin: .zero, size: size))
+        let colorImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        guard let cgImage = colorImage?.cgImage else { return nil }
+        self.init(cgImage: cgImage)
+    }
+}
 
 //This one resizes the dimensions without changing the aspect ratio. Target length is the largest side you want
 //func resizeImage(image: UIImage, targetLength: CGFloat) -> UIImage {
@@ -187,3 +212,6 @@ func delay(_ delay: Double, closure: @escaping () -> Void) {
 //
 //    return resizedImage
 //}
+
+
+
