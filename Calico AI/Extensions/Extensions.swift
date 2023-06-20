@@ -9,6 +9,27 @@ import Foundation
 import SwiftUI
 
 
+func ChooseEndpoint(preProcessor: String) -> String {
+    let cerebriumPart1 = "https://run.cerebrium.ai/v2/p-2f24fdd5/cerebriumpart1/predict"
+    let cerebriumPart2 = "https://run.cerebrium.ai/v2/p-2f24fdd5/cerebriumpart2/predict"
+    
+    switch preProcessor {
+    case "canny":
+        return cerebriumPart1
+    case "cannyimg2img":
+        return cerebriumPart1
+    case "img2img":
+        return cerebriumPart2
+    case "txt2img":
+        return cerebriumPart2
+    case "scribble2img":
+        return cerebriumPart2
+    default:
+        return cerebriumPart2 //shouldnt ever fail since it would default to txt2img in Cerebrium.
+    }
+    
+}
+
 
 //MARK: Code snippet to make clear sheet backgrounds
 
@@ -129,6 +150,11 @@ func resizeImage(image: UIImage, targetLength: CGFloat) -> UIImage {
     return resizedImage
 }
 
+//use for delays
+func delay(_ delay: Double, closure: @escaping () -> Void) {
+    let when = DispatchTime.now() + delay
+    DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
+}
 
 
 

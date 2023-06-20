@@ -29,29 +29,37 @@ struct ContentView: View {
     @State var showPlayModalView = true
     @State var showProfileView = false
     @State var showPaywallView = false
+    
     //---AI variables
     @State var positivePromptState = ""
     @State var negativePromptState = ""
     @State var widthState = 512
     @State var heightState = 512
     @State var samplesState: Double = 30
-    @State var guidanceState: Double = 7.5
+    @State var guidanceState: Double = 7
     @State var seedState = "0"
-    @State var syncAspectRatio = false
+    @State var imgGuidanceState: Double = 0.5
+    @State var useControlNet: Bool = false
+    @State var useCannyImg2Img: Bool = false
+    @State var numImages: Double = 1
+    @State var syncAspectRatio = true
     var body: some View {
         
         ZStack {
             VStack {
+                //StatusView()
                 
                 TopBarView(showPromptView: $showPromptView, isImagePickerPresented: $isImagePickerPresented, showingAlert: $showingAlert, updateView: $updateView, showProfileView: $showProfileView, showPaywallView: $showPaywallView)
-                
+                    
                 
                 Spacer()
+                   
                 if viewModel.background != nil {
                     
                     UserImageView()
                         .onAppear {
                             currentAspectRatio(viewModel: viewModel, size: size)
+                            
                             viewModel.shouldBecomeFirstResponder = false
                         }
 
@@ -62,18 +70,23 @@ struct ContentView: View {
                         .saveSize(in: $size) //Size for the scribble.
                         .onAppear {
                             viewModel.shouldBecomeFirstResponder = true
-
-                            if AreImagesEmpty(viewModel: viewModel, drawing: DrawingView.drawing) == true {
+                            
+                            //if a drawing or image exists, find the aspect ratio, and then sync the width and height states.
+                            if ImagesExist(viewModel: viewModel, drawing: DrawingView.drawing) == true {
                                 currentAspectRatio(viewModel: viewModel, size: size)
-                                syncAspectRatio = true
-                            } else {
-                                syncAspectRatio = false
+                                if syncAspectRatio == true {
+                                    widthState = 512
+                                    heightState = closestMultipleOfEight(Double(widthState) * viewModel.aspectRatio)
+                                }
+                                
                             }
                             
                             
                         }
                 }
             }
+            .padding(.top, -10)
+            .background(.white)
             if (isImagePickerPresented) {
                 ImagePicker(isImagePickerPresented: $isImagePickerPresented, viewModel: viewModel)
                     
@@ -92,8 +105,10 @@ struct ContentView: View {
                 samples = Int(samplesState)
                 guidance = roundToNearestHalf(number: guidanceState)
                 seed = Int(seedState) ?? 0
+                strength = imgGuidanceState
+                num_images_per_prompt = Int(numImages)
                 
-                //this is to switch pipelines if there's no image input for control net
+                //this is to switch pipelines if there's no image input
                 if DrawingView.canvasView.drawing.bounds.isEmpty && viewModel.background == nil {
                     preProcessor = "txt2img"
                     showAIGenerationView = true
@@ -127,11 +142,11 @@ struct ContentView: View {
         }
         // PROMPT VIEW
         .sheet(isPresented: $showPromptView) {
-            PromptView(syncAspectRatio: $syncAspectRatio, positivePromptState: $positivePromptState, negativePromptState: $negativePromptState, widthState: $widthState, heightState: $heightState, samplesState: $samplesState, guidanceState: $guidanceState, seedState: $seedState)
+            PromptView(syncAspectRatio: $syncAspectRatio, positivePromptState: $positivePromptState, negativePromptState: $negativePromptState, widthState: $widthState, heightState: $heightState, samplesState: $samplesState, guidanceState: $guidanceState, seedState: $seedState, imgGuidanceState: $imgGuidanceState, useControlNet: $useControlNet, useCannyImg2Img: $useCannyImg2Img, numImages: $numImages)
                 .clearModalBackground()
                 .onAppear {
                     //do this so that it isn't set to 512 X 512, but rather the actual aspect ratio.
-                    if AreImagesEmpty(viewModel: viewModel, drawing: DrawingView.drawing) == true {
+                    if ImagesExist(viewModel: viewModel, drawing: DrawingView.drawing) == true {
                         currentAspectRatio(viewModel: viewModel, size: size)
                         //heightState = closestMultipleOfEight(Double(widthState) * viewModel.aspectRatio)
                         
@@ -154,7 +169,7 @@ struct ContentView: View {
         }
     }
     
-    func AreImagesEmpty(viewModel: ViewModelClass, drawing: PKDrawing) -> Bool {
+    func ImagesExist(viewModel: ViewModelClass, drawing: PKDrawing) -> Bool {
         if viewModel.background != nil || drawing.bounds.isEmpty == false {
             return false
         }
@@ -188,14 +203,23 @@ struct ContentView: View {
                 let resizedImage = resizeImage(image: compressedImage, targetLength: CGFloat(max(imageHeight, imageWidth)))
                 
                 image = resizedImage
-                preProcessor = "img2img"
+                //switch between canny or CannyImg2Img, or Img2Img depending on the toggle values
+                //preProcessor = useControlNet ? "canny" : "img2img"
+                if useControlNet == false {
+                    preProcessor = "img2img"
+                } else if useCannyImg2Img {
+                    preProcessor = "cannyimg2img"
+                } else {
+                    preProcessor = "canny"
+                }
+                
             } else {
                 // handle error, e.g., by setting image to a default value or returning
                 return
             }
         }
-
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        //DEBUG: save image here for debugging
+        //UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
         let jpegData = image.jpegData(compressionQuality: 1)
         
         
@@ -214,127 +238,10 @@ struct ContentView: View {
 }
     
 
-struct TopBarView: View {
-    @Binding var showPromptView: Bool
-    @EnvironmentObject var viewModel: ViewModelClass
-    @Binding var isImagePickerPresented: Bool
-    @Binding var showingAlert: Bool
-    @Binding var updateView: Bool
-    @Binding var showProfileView: Bool
-    @Binding var showPaywallView: Bool
-    @State private var isMenuOpen = false
-    
-    var body: some View {
-        HStack {
-            //PromptView button
-            Button(action: {
-                isMenuOpen = false
-                showPromptView = true
-            }, label: {
-        
-                Image(systemName: "slider.horizontal.3")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: 30)
-                    .padding(.leading, 40)
-        
-            })
-            Spacer()
-            
-            //Play button for image generation
-            Button(action: {
-                showingAlert = true
-            }, label: {
-        
-                Image(systemName: "play")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: 30)
-                    .padding(.leading, 15)
-        
-            })
-            
-            Spacer()
-            //Pencil menue view for sketch vs image picker
-            Menu {
-                PencilMenuView(showingAlert: $showingAlert, isImagePickerPresented: $isImagePickerPresented, showProfileView: $showProfileView, showPaywallView: $showPaywallView)
-            }label: {
-                Image(systemName: "pencil.circle")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 30, height: 30)
-                    .padding(.trailing, 40)
-            }
-            .id(isMenuOpen) // Use the 'isMenuOpen' state to control the Menu's identity
-            .onChange(of: isMenuOpen) { newValue in
-                if !newValue {
-                    // If the Menu has been forced to close, reset its identity so it can be opened again
-                    isMenuOpen = true
-                }
-            }
-            .onTapGesture {
-                // The Menu has been tapped, so set 'isMenuOpen' to true
-                isMenuOpen = true
-            }
-            
-        }
-        
-    }
-}
 
 
-struct PencilMenuView: View {
-    @Binding var showingAlert: Bool
-    @EnvironmentObject var viewModel: ViewModelClass
-    @Binding var isImagePickerPresented: Bool
-    @Binding var showProfileView: Bool
-    @Binding var showPaywallView: Bool
-    var body: some View {
-        //sketch button
-        Button(action: {
-            withAnimation {
-                viewModel.shouldBecomeFirstResponder = true
-                viewModel.background = nil
-            }
-        }, label: {
-            HStack {
-                Text("Generate image from sketch")
-                Image(systemName: "scribble")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 30, height: 30)
-            }
 
-        })
-        
-        Button(action: {
-            //upload a photo from camera roll
-            withAnimation {
-                viewModel.shouldBecomeFirstResponder = false
-                isImagePickerPresented = true
-            }
-        }, label: {
-            HStack {
-                Text("Upload your own photo")
-                Image(systemName: "photo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 30, height: 30)
-            }
-            
-        })
-        
-        //Account info button
-        Button(action: {
-            showPaywallView = true
-        }, label: {
-            Text("Account Info")
-            Image(systemName: "person.circle")
-        })
 
-        
-    }
-}
 
 
 struct ContentView_Previews: PreviewProvider {
@@ -345,29 +252,3 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 
-// The resize image button:
-
-//        Button(action: {
-//
-//           var image: UIImage
-//            if viewModel.background == nil {
-//               print("no pixxx")
-//                preProcessor = "scribble"
-//            } else {
-//                if let compressedImage = compressImage(viewModel.background!, toByte: 256 * 256) { // for 250kb size
-//                    //resize it so it fits the output dimensions
-//                    print("max size: \(max(imageHeight, imageWidth))")
-//                    let resizedImage = resizeImage(image: compressedImage, targetLength: CGFloat(max(imageHeight, imageWidth)))
-//
-//                    image = resizedImage
-//                    preProcessor = "canny"
-//                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-//                } else {
-//                    // handle error, e.g., by setting image to a default value or returning
-//                    return
-//                }
-//            }
-//
-//        }, label: {
-//            Text("Resize Image")
-//        })

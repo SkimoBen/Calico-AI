@@ -24,7 +24,7 @@ struct AIGenerationView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
             } else {
-                ProgressView(failure: $failure)
+                MyProgressView(failure: $failure)
                 
             }
             //topbar
@@ -48,7 +48,7 @@ struct AIGenerationView: View {
     
 }
 
-struct ProgressView: View {
+struct MyProgressView: View {
     @State var materialOpacity: Double = 0.97
     @Binding var failure: String
     var body: some View {

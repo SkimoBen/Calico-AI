@@ -20,6 +20,7 @@ var samples = 30
 var guidance = 7.5
 var seed = 0
 var strength = 0.3
+var num_images_per_prompt = 1
 
 
 //runwayml/stable-diffusion-v1-5
@@ -34,7 +35,7 @@ var cerebriumJSONObject: [String: Any] = [
     "width": imageWidth,
     "num_inference_steps": samples,
     "guidance_scale": guidance,
-    "num_images_per_prompt": 1,
+    "num_images_per_prompt": num_images_per_prompt,
     "negative_prompt": "\(negativePrompt)",
     "seed": seed,
     "low_threshold": 100,
@@ -45,22 +46,12 @@ var cerebriumJSONObject: [String: Any] = [
     
 ]
 
-//var cerebriumTestObject: [String: Any] = [
-//    "prompt": "\(positivePrompt)",
-//    "height": 728,
-//    "width": 512,
-//    "num_inference_steps": samples,
-//    "guidance_scale": guidance,
-//    "num_images_per_prompt": 4,
-//    "negative_prompt": "\(negativePrompt)",
-//    "seed": seed,
-//]
 
 //need both of these to update the JSON object since I don't make a base64img when I have a blank canvas.
 var preProcessor: String = "text2img" {
     didSet {
         updateCerebriumJSONObject()
-  
+        
     }
 }
 var base64ImageString: String = "" {
@@ -70,17 +61,9 @@ var base64ImageString: String = "" {
     }
 }
 
-//func updateCerebriumTestObject() {
-//    cerebriumTestObject["prompt"] = positivePrompt
-//    cerebriumTestObject["negative_prompt"] = negativePrompt
-//    cerebriumTestObject["height"] = closestMultipleOfEight(Double(imageHeight))
-//    cerebriumTestObject["width"] = closestMultipleOfEight(Double(imageWidth))
-//    cerebriumTestObject["num_inference_steps"] = samples
-//    cerebriumTestObject["guidance_scale"] = guidance
-//    cerebriumTestObject["seed"] = seed
-//    print("updated Cerebrium TEST Object")
-//    print(cerebriumTestObject)
-//}
+//Modal endpoints... not used because modal is slow as balls
+let txt2img_Endpoint = "https://skimoben--stable-diffusion-cli-entrypoint.modal.run"
+let img2img_Endpoint = "https://skimoben--img2img-entrypoint.modal.run"
 
 func updateCerebriumJSONObject() {
     cerebriumJSONObject["base64Image"] = base64ImageString
@@ -89,12 +72,19 @@ func updateCerebriumJSONObject() {
     cerebriumJSONObject["height"] = closestMultipleOfEight(Double(imageHeight))
     cerebriumJSONObject["width"] = closestMultipleOfEight(Double(imageWidth))
     cerebriumJSONObject["num_inference_steps"] = samples
+    cerebriumJSONObject["num_images_per_prompt"] = num_images_per_prompt
     cerebriumJSONObject["guidance_scale"] = guidance
     cerebriumJSONObject["seed"] = seed
     cerebriumJSONObject["preProcessor"] = preProcessor
+    cerebriumJSONObject["strength"] = strength
    // print("updated Cerebrium JSON Object")
    // print(cerebriumJSONObject)
+    
+    //switch endpoints
+    endPointURL = ChooseEndpoint(preProcessor: preProcessor)
 }
+
+
 
 //format the dictionary body into proper json for the HTTP request.
 func makeJsonPayload(cerebriumJSONObject: [String: Any]) -> Data {
@@ -114,12 +104,14 @@ func makeJsonPayload(cerebriumJSONObject: [String: Any]) -> Data {
 
 //"https://run.cerebrium.ai/v2/p-2f24fdd5/customctrlnetv2/predict"
 
-//gpt sendit:
+//cerebrium part 1: https://run.cerebrium.ai/v2/p-2f24fdd5/cerebriumpart1/predict
+
+var endPointURL: String = "no pls"
 
 func sendIt(completion: @escaping (UIImage?) -> Void, failure: @escaping (String) -> Void) {
     let decoder = JSONDecoder()
 
-    guard let url = URL(string: "https://run.cerebrium.ai/v2/p-2f24fdd5/customctrlnetv2/predict") else {
+    guard let url = URL(string: endPointURL) else {
         return
     }
 

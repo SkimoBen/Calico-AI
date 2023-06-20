@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-//struct ImagePickerView: View {
-//    var body: some View {
-//        ImagePicker(isImagePickerPresented: )
-//    }
-//}
-
 struct ImagePicker: UIViewControllerRepresentable {
     
     
@@ -81,52 +75,9 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
             isImagePickerPresented = false
             
         }
+        currentAspectRatio(viewModel: viewModel, size: CGSize(width: 256, height: 256))
         
     }
 }
 
-//struct ImagePicker: UIViewControllerRepresentable {
-//    var sourceType: UIImagePickerController.SourceType = .photoLibrary
-//    var completionHandler: ((UIImage) -> Void)? = nil
-//
-//    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-//        var completionHandler: ((UIImage) -> Void)? = nil
-//
-//        init(completionHandler: ((UIImage) -> Void)?) {
-//            self.completionHandler = completionHandler
-//        }
-//
-//        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-//            if let uiImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-//                print("Image selected: \(uiImage)") // Debug print
-//                completionHandler?(uiImage)
-//            }
-//            picker.dismiss(animated: true)
-//        }
-//
-//        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-//            picker.dismiss(animated: true)
-//        }
-//    }
-//
-//    func makeCoordinator() -> Coordinator {
-//        Coordinator(completionHandler: completionHandler)
-//    }
-//
-//    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
-//        let picker = UIImagePickerController()
-//        picker.delegate = context.coordinator
-//        picker.sourceType = sourceType
-//        return picker
-//    }
-//
-//    func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePicker>) {
-//    }
-//}
 
-
-//struct ImagePickerView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ImagePickerView()
-//    }
-//}

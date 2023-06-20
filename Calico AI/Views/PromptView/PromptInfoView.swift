@@ -31,9 +31,14 @@ struct PromptInfoView: View {
                         .padding(.leading)
                         Spacer()
                     }
-                    SectionView(header: "Positive Prompt", text: "Describe your photo / sketch. Adding style keywords is very important. Try submitting a blank canvas with the prompt: 'poster of a cat standing alone on hill, centered, very fluffy, Pixar, key visual, intricate detail, breathtaking, vibrant, cinematic, 3D'")
+                    //Prompts
+                    Group {
+                        SectionView(header: "Positive Prompt", text: "Describe your photo / sketch. Adding style keywords is very important. Try submitting a blank canvas with the prompt: 'poster of a cat standing alone on hill, centered, very fluffy, Pixar, key visual, intricate detail, breathtaking, vibrant, cinematic, 3D'")
+                        
+                        SectionView(header: "Negative Prompt", text: "Describe what you don't want in your image. Try adding 'plants, grass, trees' along with the positive prompt above.")
+                    }
                     
-                    SectionView(header: "Negative Prompt", text: "Describe what you don't want in your image. Try adding 'plants, grass, trees' along with the positive prompt above.")
+                    
                     
                     SectionView(header: "Width and Height", text: "The desired dimensions of your image, in pixels.")
                     
@@ -41,9 +46,16 @@ struct PromptInfoView: View {
                     
                     SectionView(header: "Samples", text: "The number of calculations the AI model takes, sometimes more is better if you have a complex prompt. More samples = more time to generate an image.")
                     
-                    SectionView(header: "Guidance", text: "How closely should the AI model follow your prompt? Higher numbers make it follow the prompt more, sometimes at the cost of image quality.")
+                    SectionView(header: "Prompt Guidance", text: "How closely should the AI model follow your prompt? Higher numbers make it follow the prompt more, sometimes at the cost of image quality.")
+                    
+                    SectionView(header: "Diffusion Strength", text: "How much should the model diffuse your image before re-creating it? 0 will not diffuse your image at all, 1 will turn it into complete noise.")
                     
                     SectionView(header: "Seed", text: "0 will create a different image even if you don't change the inputs, if you want to get the same output, choose a random number like 12345678 and use it for different generations.")
+                    SectionView(header: "Control Net", text: "The generation will be guided by an outline of your original image. Useful if you want to maintain the composition of the original image but want the elements or colours to change.")
+                    
+                    SectionView(header: "Image + Control Net", text: "Use your existing image in addition to Control Net. Your image will be diffused according to the Diffusion Strength parameter.")
+                    
+                
                 }
                 .padding()
                 

@@ -58,7 +58,7 @@ func currentAspectRatio(viewModel: ViewModelClass, size: CGSize) {
     } else {
         width = Double((viewModel.background?.size.width)!)
         height = Double((viewModel.background?.size.height)!)
-       print("width: \(width)")
+        print("width: \(width)")
         print("height \(height)")
     }
     
@@ -70,4 +70,5 @@ func currentAspectRatio(viewModel: ViewModelClass, size: CGSize) {
         viewModel.aspectRatio = height / width
         print("aspect ratio = width / height \(height / width)")
     }
+   
 }

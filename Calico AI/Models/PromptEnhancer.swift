@@ -16,15 +16,17 @@ func updateCerebriumPromptEnhancerJSONObject() {
     cerebriumPromptEnhancerJSONObject["prompt"] = positivePrompt
 }
 
-func EnhancePrompt(viewModel: ViewModelClass, completion: @escaping () -> Void) {
+func EnhancePrompt(viewModel: ViewModelClass,
+                   completion: @escaping () -> Void,
+                   failure: @escaping (String) -> Void) {
+
     let decoder = JSONDecoder()
     
     guard let url = URL(string: "https://run.cerebrium.ai/v2/p-2f24fdd5/promptenhancer/predict") else {
+        failure("Invalid URL.")
         return
     }
     
-    //API Key for customCtrlNet public-bbf531a4a3bd3748f814
-    //API Key for prebuilt ControlNet public-4cd3d7e4bcc266780ffd
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
     request.addValue("public-bbf531a4a3bd3748f814", forHTTPHeaderField:"Authorization")
@@ -32,39 +34,84 @@ func EnhancePrompt(viewModel: ViewModelClass, completion: @escaping () -> Void) 
     request.httpBody = makeJsonPayload(cerebriumJSONObject: cerebriumPromptEnhancerJSONObject)
     request.timeoutInterval = 240
     
-    print("legooooo")
     URLSession.shared.dataTask(with: request) { (data, response, error) in
-        guard error == nil else {
-            print(error!.localizedDescription)
+        if let error = error {
+            failure(error.localizedDescription)
             return
         }
         
-        
         guard let data = data else {
-            print("Empty data")
+            failure("Empty data")
             return
         }
         
         do {
             let DecodedData = try decoder.decode(CerebriumPromptEnhancerResponse.self, from: data)
-            print("we r decoding ze data baby")
             DecodedData.enhancedPrompt.forEach { prompt in
                 DispatchQueue.main.async {
                     viewModel.enhancedPrompt = prompt
-                    print(prompt)
                     completion()
                 }
-                
-                
                 return
             }
-            
         } catch {
-            print("Error decoding JSON: \(error)")
-
+            failure("Error decoding JSON: \(error.localizedDescription)")
         }
     }.resume()
 }
+
+
+//func EnhancePrompt(viewModel: ViewModelClass, completion: @escaping () -> Void) {
+//    let decoder = JSONDecoder()
+//
+//    guard let url = URL(string: "https://run.cerebrium.ai/v2/p-2f24fdd5/promptenhancer/predict") else {
+//        return
+//    }
+//
+//    //API Key for customCtrlNet public-bbf531a4a3bd3748f814
+//    //API Key for prebuilt ControlNet public-4cd3d7e4bcc266780ffd
+//    var request = URLRequest(url: url)
+//    request.httpMethod = "POST"
+//    request.addValue("public-bbf531a4a3bd3748f814", forHTTPHeaderField:"Authorization")
+//    request.addValue("application/json", forHTTPHeaderField:"Content-Type")
+//    request.httpBody = makeJsonPayload(cerebriumJSONObject: cerebriumPromptEnhancerJSONObject)
+//    request.timeoutInterval = 240
+//
+//    print("legooooo")
+//    URLSession.shared.dataTask(with: request) { (data, response, error) in
+//        guard error == nil else {
+//            print(error!.localizedDescription)
+//            completion()
+//            return
+//        }
+//
+//
+//        guard let data = data else {
+//            print("Empty data")
+//            completion()
+//            return
+//        }
+//
+//        do {
+//            let DecodedData = try decoder.decode(CerebriumPromptEnhancerResponse.self, from: data)
+//            print("we r decoding ze data baby")
+//            DecodedData.enhancedPrompt.forEach { prompt in
+//                DispatchQueue.main.async {
+//                    viewModel.enhancedPrompt = prompt
+//                    print(prompt)
+//                    completion()
+//                }
+//
+//
+//                return
+//            }
+//
+//        } catch {
+//            print("Error decoding JSON: \(error)")
+//            completion()
+//        }
+//    }.resume()
+//}
 
 
 struct CerebriumPromptEnhancerResponse: Codable {

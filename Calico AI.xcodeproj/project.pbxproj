@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		F7AF0D622A396EEE00698BC6 /* PromptEnhancer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AF0D612A396EEE00698BC6 /* PromptEnhancer.swift */; };
+		F7AF0D642A3BA6FC00698BC6 /* TopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AF0D632A3BA6FC00698BC6 /* TopBarView.swift */; };
+		F7AF0D662A3CBFB900698BC6 /* EasyNegative.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AF0D652A3CBFB900698BC6 /* EasyNegative.swift */; };
+		F7AF0D682A3CC44500698BC6 /* PromptSubViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AF0D672A3CC44500698BC6 /* PromptSubViews.swift */; };
 		F7F1D17C2A339AA60088201F /* Calico_AIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D17B2A339AA60088201F /* Calico_AIApp.swift */; };
 		F7F1D17E2A339AA60088201F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1D17D2A339AA60088201F /* ContentView.swift */; };
 		F7F1D1802A339AA90088201F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7F1D17F2A339AA90088201F /* Assets.xcassets */; };
@@ -34,6 +37,9 @@
 
 /* Begin PBXFileReference section */
 		F7AF0D612A396EEE00698BC6 /* PromptEnhancer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptEnhancer.swift; sourceTree = "<group>"; };
+		F7AF0D632A3BA6FC00698BC6 /* TopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarView.swift; sourceTree = "<group>"; };
+		F7AF0D652A3CBFB900698BC6 /* EasyNegative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyNegative.swift; sourceTree = "<group>"; };
+		F7AF0D672A3CC44500698BC6 /* PromptSubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptSubViews.swift; sourceTree = "<group>"; };
 		F7F1D1782A339AA60088201F /* Calico AI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Calico AI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7F1D17B2A339AA60088201F /* Calico_AIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calico_AIApp.swift; sourceTree = "<group>"; };
 		F7F1D17D2A339AA60088201F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -98,6 +104,7 @@
 				F7F1D19F2A339DF90088201F /* Models */,
 				F7F1D1812A339AA90088201F /* Preview Content */,
 				F7F1D17F2A339AA90088201F /* Assets.xcassets */,
+				F7F1D1922A339D5F0088201F /* FocusFieldTest.swift */,
 			);
 			path = "Calico AI";
 			sourceTree = "<group>";
@@ -115,6 +122,7 @@
 			children = (
 				F7F1D1892A339BB40088201F /* PromptInfoView.swift */,
 				F7F1D18B2A339BC40088201F /* PromptView.swift */,
+				F7AF0D672A3CC44500698BC6 /* PromptSubViews.swift */,
 			);
 			path = PromptView;
 			sourceTree = "<group>";
@@ -123,10 +131,10 @@
 			isa = PBXGroup;
 			children = (
 				F7F1D17D2A339AA60088201F /* ContentView.swift */,
+				F7AF0D632A3BA6FC00698BC6 /* TopBarView.swift */,
 				F7F1D18D2A339BCD0088201F /* PromptView */,
 				F7F1D18F2A339D5F0088201F /* AIGenerationView.swift */,
 				F7F1D18E2A339D5F0088201F /* DrawingView.swift */,
-				F7F1D1922A339D5F0088201F /* FocusFieldTest.swift */,
 				F7F1D1912A339D5F0088201F /* ImagePickerView.swift */,
 				F7F1D1902A339D5F0088201F /* UserImageView.swift */,
 				F7F1D1CF2A3636A10088201F /* ProfileView.swift */,
@@ -152,6 +160,7 @@
 			children = (
 				F7F1D1A22A339E970088201F /* Extensions.swift */,
 				F7F1D1A32A339E970088201F /* SizeFunctions.swift */,
+				F7AF0D652A3CBFB900698BC6 /* EasyNegative.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -244,12 +253,15 @@
 				F7F1D1952A339D5F0088201F /* UserImageView.swift in Sources */,
 				F7F1D1A52A339E970088201F /* SizeFunctions.swift in Sources */,
 				F7F1D18C2A339BC40088201F /* PromptView.swift in Sources */,
+				F7AF0D662A3CBFB900698BC6 /* EasyNegative.swift in Sources */,
+				F7AF0D682A3CC44500698BC6 /* PromptSubViews.swift in Sources */,
 				F7F1D17E2A339AA60088201F /* ContentView.swift in Sources */,
 				F7F1D19E2A339DF10088201F /* Cerebrium.swift in Sources */,
 				F7F1D19C2A339DF10088201F /* Cerebrium Rate Limit.swift in Sources */,
 				F7F1D19D2A339DF10088201F /* CerebriumCustomSD.swift in Sources */,
 				F7F1D1962A339D5F0088201F /* ImagePickerView.swift in Sources */,
 				F7F1D1D02A3636A10088201F /* ProfileView.swift in Sources */,
+				F7AF0D642A3BA6FC00698BC6 /* TopBarView.swift in Sources */,
 				F7F1D1D82A365D7C0088201F /* Paywall.swift in Sources */,
 				F7F1D1CE2A35496F0088201F /* SavedInfo.swift in Sources */,
 				F7F1D1A42A339E970088201F /* Extensions.swift in Sources */,
