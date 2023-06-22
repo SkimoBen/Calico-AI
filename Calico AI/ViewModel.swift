@@ -24,9 +24,9 @@ class ViewModelClass: ObservableObject {
 class UserViewModel: ObservableObject {
 //    @Published var isApprentice = false
 //    @Published var isSorcerer = false
-//    @Published var isIllusionist = false ///DONT   FORGET   TO   SET   FALSE
+//    @Published var isIllusionist = false
 //    @Published var isPurchasing = false
-    @Published var currentUserEntitlements: PermissionsStruct = UserEntitlements().Illusionist
+    @Published var currentUserEntitlements: PermissionsStruct = UserEntitlements().Illusionist ///DONT   FORGET   TO   SET   TO   TRIAL
     init() {
         ///initialize the UserViewModel by calling the Revenue Cat DB to check for the users entitlement. Entitlements control the permissions inside the app.
         Purchases.shared.getCustomerInfo { (customerInfo, error) in

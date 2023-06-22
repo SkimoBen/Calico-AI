@@ -30,18 +30,34 @@ struct AIGenerationView: View {
             //topbar
             VStack {
                 HStack {
-                    Button("Back") {
+                    Button(action: {
                         image = nil
                         failure = ""
                         showAIGenerationView = false
                         dismiss()
-                    }
-                    .padding(.leading, 15)
+                    }, label: {
+                        Image(systemName: "x.circle")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxWidth: 30)
+                            
+                    })
+                    .padding(2)
+                    .foregroundColor(.primary.opacity(0.7))
+//                    .background(.ultraThinMaterial.opacity(0.9))
+//                    .background(
+//                        LinearGradient(colors: [.white, .blue], startPoint: .topLeading, endPoint: .bottomTrailing)
+//                    )
+                    .clipShape(RoundedRectangle(cornerRadius: 30))
+                    .padding(.leading, 30)
+                   
                     Spacer()
                 }
                 .background(Color.clear)
                 Spacer()
             }
+            
+            
         }
         .background(Color.clear)
     }

@@ -90,12 +90,9 @@ struct ContentView: View {
                         }
                 }
             }
-            .padding(.top, -18)
-            //.background(.red)
-            if (isImagePickerPresented) {
-                ImagePicker(isImagePickerPresented: $isImagePickerPresented, viewModel: viewModel)
-                
-            }
+            .padding(.top, -12)
+  
+            
             //MARK: Modal section
             VStack {
                 HStack {
@@ -104,7 +101,11 @@ struct ContentView: View {
                     Spacer() //fill space between elements
                     
                     Button(action: {
-                        showPaywallView.toggle()
+                        //need for the Menu bug. 
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            showPaywallView.toggle()
+                        }
+                        
                     }, label: {
                         EntitlementsView()
                             .shadow(color: userViewModel.currentUserEntitlements.accentColour[0].opacity(0.5), radius: 5 )
@@ -112,12 +113,16 @@ struct ContentView: View {
                     
                     Spacer()
                     
-                    RightMenuView(showingAlert: $showingAlert)
+                    RightMenuView(showingAlert: $showingAlert, showProfileView: $showProfileView)
                         .shadow(color: .primary.opacity(0.5), radius: 10 )
                 }
                 Spacer() //fill space on the bottom
             }
-            
+            //MARK: Image Picker section
+            if (isImagePickerPresented) {
+                ImagePicker(isImagePickerPresented: $isImagePickerPresented, viewModel: viewModel)
+                
+            }
             
         }
         //alert is for calling the API and switching to image gen view
@@ -151,7 +156,7 @@ struct ContentView: View {
                 
             }, secondaryButton: .cancel())
         }
-        //Bottom of the ZStack, this shows the image generation view.
+        //MARK: Bottom of the ZStack, this shows the image generation view.
         .fullScreenCover(isPresented: $showAIGenerationView) {
             AIGenerationView(image: $generatedImage, failure: $generationFailure, showAIGenerationView: $showAIGenerationView).onAppear {
                 sendIt(completion: { (image) in
@@ -165,7 +170,6 @@ struct ContentView: View {
             }
         }
         .fullScreenCover(isPresented: $showProfileView) {
-            
             ProfileView(showProfileView: $showProfileView)
         }
         // PROMPT VIEW

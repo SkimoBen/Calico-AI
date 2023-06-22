@@ -11,14 +11,28 @@ struct EntitlementsView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     var body: some View {
         HStack {
-            VStack {
-                Text(userViewModel.currentUserEntitlements.title)
-                    .foregroundStyle(
-                        LinearGradient(colors: userViewModel.currentUserEntitlements.accentColour, startPoint: .leading, endPoint: .trailing)
-                    )
-                
-                Image(systemName: "c.circle")
-            }
+            
+            Text(userViewModel.currentUserEntitlements.title)
+                .foregroundStyle(
+                    LinearGradient(colors: userViewModel.currentUserEntitlements.accentColour, startPoint: .leading, endPoint: .trailing)
+                )
+            
+            
+            Text("|")
+                .foregroundColor(userViewModel.currentUserEntitlements.accentColour[0])
+            
+            Image("\(userViewModel.currentUserEntitlements.cashPicName)")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: 20)
+                .foregroundColor(Color.blue)
+            
+            Text("6500")
+                .font(.caption)
+                .foregroundColor(userViewModel.currentUserEntitlements.accentColour[0])
+            
+            
+            
             
         }
         .padding(8)
@@ -35,7 +49,6 @@ struct PencilMenuView: View {
     @Binding var showingAlert: Bool
     @EnvironmentObject var viewModel: ViewModelClass
     @Binding var isImagePickerPresented: Bool
-    @Binding var showProfileView: Bool
     @Binding var showPaywallView: Bool
     var body: some View {
         
@@ -72,41 +85,49 @@ struct PencilMenuView: View {
             }
             
         })
-        
-        //Account info button
-        Button(action: {
-            showPaywallView = true
-        }, label: {
-            Text("Account Info")
-            Image(systemName: "person.circle")
-        })
-
-        
     }
 }
 
 struct RightMenuView: View {
     @Binding var showingAlert: Bool
+    @Binding var showProfileView: Bool
     var body: some View {
         VStack {
             //Play button for image generation
             Button(action: {
+                //Need DispatchQueue for Menu bug
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    showingAlert = true
+                }
                 
-                showingAlert = true
             }, label: {
         
                 Image(systemName: "play.circle")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 30, height: 30)
-                    
+                    .frame(maxWidth: 30)
+                    .foregroundStyle(
+                        LinearGradient(colors: [.cyan,.blue, .pink], startPoint: .topLeading, endPoint: .bottomTrailing)
+                    )
         
             })
+            Spacer()
             
-            StatusView()
+            Button(action: {
+                //Need DispatchQueue for Menu bug
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    showProfileView = true
+                }
+                
+            }, label: {
+                Image(systemName: "person.circle")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: 25)
+            })
         }
+        .frame(maxHeight: 80)
         .padding()
-        //.overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.gray, lineWidth: 1))
         .background(.ultraThinMaterial.opacity(0.9)) 
         .clipShape(RoundedRectangle(cornerRadius: 30))
         .padding(.trailing, 20)
@@ -123,8 +144,11 @@ struct EditorsButtonsView: View {
         VStack {
             //PromptView button
             Button(action: {
-                //isMenuOpen = false
-                showPromptView = true
+                //this is to solve the menu bug which causes sheets to stop working if tapped when menu is open.
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    showPromptView = true
+                }
+                
             }, label: {
                 
                 Image(systemName: "slider.horizontal.3")
@@ -137,7 +161,7 @@ struct EditorsButtonsView: View {
             .padding(.bottom,10)
             //Pencil menue view for sketch vs image picker
             Menu {
-                PencilMenuView(showingAlert: $showingAlert, isImagePickerPresented: $isImagePickerPresented, showProfileView: $showProfileView, showPaywallView: $showPaywallView)
+                PencilMenuView(showingAlert: $showingAlert, isImagePickerPresented: $isImagePickerPresented, showPaywallView: $showPaywallView)
             }label: {
                 Image(systemName: "pencil.circle")
                     .resizable()
@@ -147,6 +171,7 @@ struct EditorsButtonsView: View {
             }
             
         }
+        .frame(maxHeight: 80)
         .padding()
         //.overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.gray, lineWidth: 1))
         .background(.ultraThinMaterial.opacity(0.9)) // Adjust the opacity to make the background ultra thin
@@ -155,19 +180,7 @@ struct EditorsButtonsView: View {
     }
 }
 
-struct StatusView: View {
-    var body: some View {
-        VStack {
-            Text("Trial")
-                //.foregroundColor(.black)
-                .font(.caption)
-            Text("1000")
-                //.foregroundColor(.black)
-                .font(.caption2)
-        }
-        
-    }
-}
+
 
 struct TopBarView_Previews: PreviewProvider {
     static var previews: some View {

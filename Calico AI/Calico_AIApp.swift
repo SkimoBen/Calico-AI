@@ -11,10 +11,12 @@ import RevenueCat
 @main
 struct Calico_AIApp: App {
     @StateObject private var viewModel = ViewModelClass()
+    @StateObject private var userViewModel = UserViewModel()
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(viewModel)
+                .environmentObject(userViewModel)
         }
     }
     //initialize the Revenue Cat purchases
