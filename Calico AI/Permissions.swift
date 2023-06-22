@@ -15,7 +15,8 @@ class UserEntitlements {
         maxResolution: 720,
         maxGenerations: 1,
         accentColour: [.orange],
-        cashPicName: "cashWingOrange"
+        cashPicName: "cashWingOrange",
+        maxSamples: 30
         
     )
    
@@ -25,7 +26,8 @@ class UserEntitlements {
         maxResolution: 720,
         maxGenerations: 1,
         accentColour: [.purple, .pink],
-        cashPicName: "cashWingPink"
+        cashPicName: "cashWingPink",
+        maxSamples: 50
     )
     
     let Sorcerer = PermissionsStruct(
@@ -34,7 +36,8 @@ class UserEntitlements {
         maxResolution: 1024,
         maxGenerations: 2,
         accentColour: [.mint, .cyan],
-        cashPicName: "cashWingMint"
+        cashPicName: "cashWingMint",
+        maxSamples: 75
     )
     
     let Illusionist = PermissionsStruct(
@@ -43,7 +46,8 @@ class UserEntitlements {
         maxResolution: 2048,
         maxGenerations: 4,
         accentColour: [.cyan, .blue],
-        cashPicName: "cashWingBlue"
+        cashPicName: "cashWingBlue",
+        maxSamples: 100
     )
     
 }
@@ -56,4 +60,5 @@ struct PermissionsStruct {
     let maxGenerations: Int
     let accentColour: [Color]
     let cashPicName: String
+    let maxSamples: Int
 }

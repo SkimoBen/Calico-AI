@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F751CB992A4243AE00317923 /* Permissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F751CB982A4243AE00317923 /* Permissions.swift */; };
+		F76297EA2A44D36F004777A2 /* AdvancedSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76297E92A44D36F004777A2 /* AdvancedSettingsView.swift */; };
 		F7AF0D622A396EEE00698BC6 /* PromptEnhancer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AF0D612A396EEE00698BC6 /* PromptEnhancer.swift */; };
 		F7AF0D642A3BA6FC00698BC6 /* TopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AF0D632A3BA6FC00698BC6 /* TopBarView.swift */; };
 		F7AF0D662A3CBFB900698BC6 /* EasyNegative.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AF0D652A3CBFB900698BC6 /* EasyNegative.swift */; };
@@ -38,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		F751CB982A4243AE00317923 /* Permissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Permissions.swift; sourceTree = "<group>"; };
+		F76297E92A44D36F004777A2 /* AdvancedSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsView.swift; sourceTree = "<group>"; };
 		F7AF0D612A396EEE00698BC6 /* PromptEnhancer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptEnhancer.swift; sourceTree = "<group>"; };
 		F7AF0D632A3BA6FC00698BC6 /* TopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarView.swift; sourceTree = "<group>"; };
 		F7AF0D652A3CBFB900698BC6 /* EasyNegative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyNegative.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				F7F1D1892A339BB40088201F /* PromptInfoView.swift */,
 				F7F1D18B2A339BC40088201F /* PromptView.swift */,
 				F7AF0D672A3CC44500698BC6 /* PromptSubViews.swift */,
+				F76297E92A44D36F004777A2 /* AdvancedSettingsView.swift */,
 			);
 			path = PromptView;
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 				F7F1D17C2A339AA60088201F /* Calico_AIApp.swift in Sources */,
 				F7F1D1972A339D5F0088201F /* FocusFieldTest.swift in Sources */,
 				F7F1D18A2A339BB40088201F /* PromptInfoView.swift in Sources */,
+				F76297EA2A44D36F004777A2 /* AdvancedSettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

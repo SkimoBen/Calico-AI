@@ -12,6 +12,7 @@ import UIKit
 struct PromptView: View {
    // @ObservedObject private var keyboard = KeyboardResponder()
     @EnvironmentObject var viewModel: ViewModelClass
+    @EnvironmentObject var userViewModel: UserViewModel
     @State var hidePromptView = false //to hide the prompt view when necessary
     @State var hideSettingsView = false
     @Binding var syncAspectRatio: Bool
@@ -25,10 +26,10 @@ struct PromptView: View {
     @Binding var seedState: String
     @Binding var imgGuidanceState: Double
     @Binding var useControlNet: Bool
+    @State var useControlNetId = UUID()
     @Binding var useCannyImg2Img: Bool
     @Binding var numImages: Double
     @State var isInfoShowing: Bool = false
-    @State var useControlNetId = UUID()
     @State var enhancing: Bool = false
     //@Binding var numImagesMax: Double
     var body: some View {
@@ -41,7 +42,7 @@ struct PromptView: View {
                 ScrollViewReader { proxy in
                     ScrollView {
                         
-                        //Prompt group elements
+                        //MARK: Prompt Group elements
                         Group {
                             if hidePromptView {
                                 EmptyView()
@@ -74,7 +75,7 @@ struct PromptView: View {
                                         
                                     }
                                     
-                                    
+                                    //MARK: Poitive Prompt View
                                     PositivePromptView(positivePromptState: $positivePromptState, enhancing: $enhancing)
                                     
                                     
@@ -92,7 +93,7 @@ struct PromptView: View {
                                             }
                                             
                                         }
-                                    
+                                    //MARK: Negative Prompt View
                                     NegativePromptView(negativePromptState: $negativePromptState)
                                     
                                     TextEditor(text: $negativePromptState)
@@ -117,110 +118,17 @@ struct PromptView: View {
                             
                         } else {
                             
-                            //Image dimensions group
+                            //MARK: Image dimensions group
                            ImageDimensionsView(syncAspectRatio: $syncAspectRatio, numImages: $numImages, widthState: $widthState, heightState: $heightState)
                             
                             
-                            //Advanced Settings Group
-                            //TODO: Should be refactored out into its own view
-                            Group {
-                                
-                                Text("Advanced Settings")
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(.leading, 25)
-                                    .padding(.top, 5)
-                                    .font(
-                                        .system(
-                                            size: 20,
-                                            weight: .light,
-                                            design: .rounded
-                                        )
-                                    )
-                                    .foregroundColor(Color.blue)
-                                
-                                
-                                
-                                
-                                HStack {
-                                    Text("Samples: \(Int(samplesState))")
-                                        .frame(maxWidth: 130, alignment: .leading)
-                                    Slider(value: $samplesState, in: 1...100)
-                                    
-                                    
-                                }
-                                .padding([.leading, .trailing], 25)
-                                
-                                HStack {
-                                    Text("Prompt Guidance: \(String(format: "%.1f", guidanceState))")
-                                        .frame(maxWidth: 130, alignment: .leading)
-                                        .lineLimit(2)
-                                        .fixedSize(horizontal: false, vertical: true)
-                                        
-                                        
-                                    Slider(value: $guidanceState, in: 1...30, step: 0.5)
-                                }
-                                .padding( [.leading, .trailing], 25)
-                                
-                                HStack {
-                                    Text("Diffusion \nStrength: \(String(format: "%.1f", imgGuidanceState))")
-                                        .frame(maxWidth: 130, alignment: .leading)
-                                        .lineLimit(2)
-                                        .fixedSize(horizontal: false, vertical: true)
-                                       
-                                    Slider(value: $imgGuidanceState, in: 0...1)
-                                }
-                                .padding( [.leading, .trailing], 25)
-                                
-                                HStack {
-                                    Text("Seed: ")
-                                        .frame(maxWidth: 130, alignment: .leading)
-                                    
-                                    TextField("seed", text: $seedState) { isEditing in
-                                        withAnimation {
-                                            self.hidePromptView = isEditing
-                                        }
-                                    } onCommit: {}
-                                    // .focused($isFocused)
-                                        .padding(3)
-                                        .font(.title3)
-                                    
-                                        .cornerRadius(4)
-                                        .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.gray, lineWidth: 0.5))
-                                        .keyboardType(.numberPad)
-                                        .onReceive(Just(seedState)) { newValue in
-                                            let filtered = newValue.filter { "0123456789".contains($0) }
-                                            if filtered != newValue {
-                                                self.seedState = filtered
-                                            }
-                                        }
-                                }
-                                .padding([.leading, .trailing], 25)
-                                
-                                //Control net toggles
-                                VStack {
-                                    Toggle(isOn: $useControlNet) {
-                                        Text("Use Control Net")
-                                    }
-                                    .tint(.blue)
-                                    if useControlNet == true {
-                                        withAnimation {
-                                            Toggle(isOn: $useCannyImg2Img) {
-                                                Text("Use Image + Control Net")
-                                            }
-                                            .id(useControlNetId)
-                                            .tint(.blue)
-                                            .transition(.slide)
-                                        }
-                                        
-                                    }
-                                }
-                                .padding([.leading, .trailing], 25)
-                                
-                            }.transition(.opacity)
+                            //MARK: Advanced Settings Group
+                            AdvancedSettingsView(guidanceState: $guidanceState, seedState: $seedState, imgGuidanceState: $imgGuidanceState,  useControlNet: $useControlNet, useCannyImg2Img: $useCannyImg2Img, samplesState: $samplesState, useControlNetId: $useControlNetId, hidePromptView: $hidePromptView)
+                            
                         }
 
                         Spacer()
-                    }
+                    }//MARK: Bottom of ScrollView
                     .clearModalBackground()
                     //Scrollview goes to the bottom when the controlnet toggle is turned on.
                     .onChange(of: useControlNet) { _ in  // Add onChange
@@ -232,7 +140,7 @@ struct PromptView: View {
                         }
                     }
                 }
-                
+                //MARK: Bottom of Scrollview Reader
                 //.background(Color.clear)
                 .cornerRadius(10)
                 .padding()
@@ -251,16 +159,18 @@ struct PromptView: View {
                         }
                     }
                 }
-            }
+            }//MARK: Bottom of Navigation View
             .background(Material.ultraThin)
         }
     }
 }
 
+//MARK: Previews
 struct PromptView_Previews: PreviewProvider {
     static var previews: some View {
         PromptView(syncAspectRatio: .constant(false), positivePromptState: .constant(""), negativePromptState: .constant(""), widthState: .constant(512), heightState: .constant(512), samplesState: .constant(30), guidanceState: .constant(7.5), seedState: .constant("100"), imgGuidanceState: .constant(0.5), useControlNet: .constant(true), useCannyImg2Img: .constant(false), numImages: .constant(1))
                 .environmentObject(ViewModelClass())
+                .environmentObject(UserViewModel())
     }
        
 }

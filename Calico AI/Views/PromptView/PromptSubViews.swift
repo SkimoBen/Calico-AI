@@ -22,14 +22,19 @@ func MaxGenerations(UserMax: Int, currentWidth: Int, currentHeight: Int) -> Int 
     default:
         resolutionMax = 4
     }
+    
     if UserMax > resolutionMax {
+//        print("Res Max_____")
+//        print(resolutionMax)
         return resolutionMax
     } else {
+//        print("User Max_____")
+//        print(UserMax)
         return UserMax
     }
     
 }
-    
+    //MARK: Image dimensions view
     struct ImageDimensionsView: View {
         @Binding var syncAspectRatio: Bool
         @Binding var numImages: Double
@@ -38,6 +43,7 @@ func MaxGenerations(UserMax: Int, currentWidth: Int, currentHeight: Int) -> Int 
         @EnvironmentObject var viewModel: ViewModelClass
         @EnvironmentObject var userViewModel: UserViewModel
         @State var maxGenerations: Int = 4
+        @State private var isFirstAppear = true
         
         var body: some View {
             let maxResolution = userViewModel.currentUserEntitlements.maxResolution
@@ -45,41 +51,46 @@ func MaxGenerations(UserMax: Int, currentWidth: Int, currentHeight: Int) -> Int 
             
             Group {
                 VStack {
+                    //MARK: Width slider
                     Text("Width: \(widthState)")
                     Slider(value: Binding(get: {
                         Double(widthState)
                     }, set: { (newValue) in
-                        let newWidth = Int(newValue)
                         
                         if syncAspectRatio {
-                            let newHeight = closestMultipleOfEight(Double(newWidth) * viewModel.aspectRatio)
-                            if newHeight <= maxResolution {
-                                widthState = newWidth
-                                heightState = newHeight
-                                
+                            let potentialNewWidth = min(Int(newValue), maxResolution)
+                            let potentialNewHeight = closestMultipleOfEight(Double(potentialNewWidth) * viewModel.aspectRatio)
+
+                            if potentialNewHeight <= maxResolution {
+                                widthState = potentialNewWidth
+                                heightState = potentialNewHeight
                             }
                         } else {
-                            widthState = newWidth
+                            widthState = min(Int(newValue), maxResolution)
                         }
                         //check the max gnerations
                         maxGenerations = MaxGenerations(UserMax: userMaxGenerations, currentWidth: widthState, currentHeight: heightState)
-                        
+                    
                     }), in: 8...Double(maxResolution), step: 8)
                     
+                    //MARK: Height slider
                     Text("Height: \(heightState)")
                     Slider(value: Binding(get: {
                         Double(heightState)
                     }, set: { (newValue) in
-                        let newHeight = Int(newValue)
+                        //need this here for the slider because toggle is its own thing.
                         if syncAspectRatio {
-                            let newWidth = closestMultipleOfEight(Double(newHeight) / viewModel.aspectRatio)
-                            if newWidth <= maxResolution {
-                                heightState = newHeight
-                                widthState = newWidth
+                            let potentialNewHeight = min(Int(newValue), maxResolution)
+                            let potentialNewWidth = closestMultipleOfEight(Double(potentialNewHeight) / viewModel.aspectRatio)
+
+                            if potentialNewWidth <= maxResolution {
+                                heightState = potentialNewHeight
+                                widthState = potentialNewWidth
                             }
                         } else {
-                            heightState = newHeight
+                            heightState = min(Int(newValue), maxResolution)
                         }
+
                         //check the max gnerations
                         maxGenerations = MaxGenerations(UserMax: userMaxGenerations, currentWidth: widthState, currentHeight: heightState)
                     }), in: 8...Double(maxResolution), step: 8)
@@ -88,28 +99,49 @@ func MaxGenerations(UserMax: Int, currentWidth: Int, currentHeight: Int) -> Int 
                         Text("Sync Aspect Ratio")
                     }
                     .tint(.blue)
+                    //MARK: On change functions
                     .onChange(of: syncAspectRatio) { newValue in
                         if newValue {
-                            widthState = 512
-                            heightState = closestMultipleOfEight(Double(widthState) * viewModel.aspectRatio)
+                            if viewModel.aspectRatio < 1 {
+                                //landscape mode
+                                widthState = maxResolution
+                                heightState = closestMultipleOfEight(Double(widthState) * viewModel.aspectRatio)
+                            } else {
+                                //portrait mode
+                                heightState = maxResolution
+                                widthState = closestMultipleOfEight(Double(heightState) / viewModel.aspectRatio)
+                            }
+                            
+                            
                         }
                     }
                     
                     HStack {
-                        Text("Number of Images: \(Int(numImages))")
+                        Text("Generations: \(Int(numImages))")
                             .frame(maxWidth: 130, alignment: .leading)
-                        Slider(value: $numImages, in: 1...Double(maxGenerations), step: 1)
-                        //BROKEN AS FUCK NEED TO FIX
+                        if (heightState > 1600 || widthState > 1600) || userMaxGenerations == 1 {
+                            Spacer()
+                        } else {
+                            Slider(value: $numImages, in: 1...Double(maxGenerations), step: 1)
+                        }
+                        
                         
                     }
+                    
                 }
                 .padding([.leading, .trailing], 25)
+                .onChange(of: maxGenerations) { newValue in
+                    if numImages > Double(newValue) {
+                        numImages = Double(newValue)
+                    }
+                }
                 
             }
         }
     }
-    
-    struct NegativePromptView: View {
+
+//MARK: Negative Prompt View
+struct NegativePromptView: View {
         @Binding var negativePromptState: String
         var body: some View {
             HStack {
@@ -142,6 +174,7 @@ func MaxGenerations(UserMax: Int, currentWidth: Int, currentHeight: Int) -> Int 
         }
     }
     
+//MARK: Positive Prompt View
     struct PositivePromptView: View {
         @Binding var positivePromptState: String
         @Binding var enhancing: Bool
@@ -195,6 +228,7 @@ func MaxGenerations(UserMax: Int, currentWidth: Int, currentHeight: Int) -> Int 
         }
     }
     
+//MARK: Previews
     struct PromptSubview_Previews: PreviewProvider {
         static var previews: some View {
             PromptView(syncAspectRatio: .constant(false), positivePromptState: .constant(""), negativePromptState: .constant(""), widthState: .constant(512), heightState: .constant(512), samplesState: .constant(30), guidanceState: .constant(7.5), seedState: .constant("100"), imgGuidanceState: .constant(0.5), useControlNet: .constant(true), useCannyImg2Img: .constant(false), numImages: .constant(1))

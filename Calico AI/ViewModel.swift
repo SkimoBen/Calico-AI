@@ -22,18 +22,22 @@ class ViewModelClass: ObservableObject {
 
 
 class UserViewModel: ObservableObject {
-//    @Published var isApprentice = false
-//    @Published var isSorcerer = false
-//    @Published var isIllusionist = false
+
 //    @Published var isPurchasing = false
-    @Published var currentUserEntitlements: PermissionsStruct = UserEntitlements().Illusionist ///DONT   FORGET   TO   SET   TO   TRIAL
+    @Published var currentUserEntitlements: PermissionsStruct = UserEntitlements().Trial ///DONT   FORGET   TO   SET   TO   TRIAL
+    @Published var latestPurchaseDate: Date = Date()
+    @Published var willRenew: Bool = false
+    //initialize a default date...not using.
+    //let defaultDate = Calendar.current.date(byAdding: .month, value: 1, to: Date()) ?? Date()
+    
     init() {
         ///initialize the UserViewModel by calling the Revenue Cat DB to check for the users entitlement. Entitlements control the permissions inside the app.
         Purchases.shared.getCustomerInfo { (customerInfo, error) in
             if customerInfo?.entitlements.all["Apprentice"]?.isActive == true {
-                
                 /// User is "Apprentice"
                 self.currentUserEntitlements = UserEntitlements().Apprentice
+                
+                self.latestPurchaseDate = (customerInfo?.entitlements.all["Apprentice"]?.latestPurchaseDate)!
                 
             } else if (customerInfo?.entitlements.all["Sorcerer"]?.isActive == true ) {
                 
@@ -45,7 +49,13 @@ class UserViewModel: ObservableObject {
                 /// User is "Illusionist
                 self.currentUserEntitlements = UserEntitlements().Illusionist
             }
+            
+            
         }
+        
+       
+        
+       
         
     }
 }

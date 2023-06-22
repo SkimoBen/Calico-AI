@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+//MARK: Entitlements View
 struct EntitlementsView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     var body: some View {
@@ -31,9 +32,6 @@ struct EntitlementsView: View {
                 .font(.caption)
                 .foregroundColor(userViewModel.currentUserEntitlements.accentColour[0])
             
-            
-            
-            
         }
         .padding(8)
         //.overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.gray, lineWidth: 1))
@@ -45,6 +43,7 @@ struct EntitlementsView: View {
     }
 }
 
+//MARK: Pencil Menu View
 struct PencilMenuView: View {
     @Binding var showingAlert: Bool
     @EnvironmentObject var viewModel: ViewModelClass
@@ -88,6 +87,7 @@ struct PencilMenuView: View {
     }
 }
 
+//MARK: Right Modal View
 struct RightMenuView: View {
     @Binding var showingAlert: Bool
     @Binding var showProfileView: Bool
@@ -134,6 +134,7 @@ struct RightMenuView: View {
     }
 }
 
+//MARK: Editor Buttons View
 struct EditorsButtonsView: View {
     @Binding var showingAlert: Bool
     @Binding var isImagePickerPresented: Bool
@@ -181,7 +182,7 @@ struct EditorsButtonsView: View {
 }
 
 
-
+//MARK: Preview
 struct TopBarView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()

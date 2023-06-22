@@ -44,7 +44,8 @@ struct ContentView: View {
     @State var useControlNet: Bool = false
     @State var useCannyImg2Img: Bool = false
     @State var numImages: Double = 1
-    @State var syncAspectRatio = true
+    @State var syncAspectRatio = false
+    @State var firstAppearance = true
     var body: some View {
         
         ZStack {
@@ -172,21 +173,33 @@ struct ContentView: View {
         .fullScreenCover(isPresented: $showProfileView) {
             ProfileView(showProfileView: $showProfileView)
         }
-        // PROMPT VIEW
+        //MARK: PROMPT VIEW
         .sheet(isPresented: $showPromptView) {
             PromptView(syncAspectRatio: $syncAspectRatio, positivePromptState: $positivePromptState, negativePromptState: $negativePromptState, widthState: $widthState, heightState: $heightState, samplesState: $samplesState, guidanceState: $guidanceState, seedState: $seedState, imgGuidanceState: $imgGuidanceState, useControlNet: $useControlNet, useCannyImg2Img: $useCannyImg2Img, numImages: $numImages)
                 .clearModalBackground()
                 .onAppear {
-                    //do this so that it isn't set to 512 X 512, but rather the actual aspect ratio.
-                    if ImagesExist(viewModel: viewModel, drawing: DrawingView.drawing) == true {
-                        currentAspectRatio(viewModel: viewModel, size: size)
-                        //heightState = closestMultipleOfEight(Double(widthState) * viewModel.aspectRatio)
-                        
-                    } else {
-                        syncAspectRatio = false
+                    if firstAppearance == true {
+                        syncAspectRatio = true
+                        firstAppearance = false
                     }
                     
-                    viewModel.shouldBecomeFirstResponder = false
+                    //do this so that it isn't set to 512 X 512, but rather the actual aspect ratio.
+//                    if ImagesExist(viewModel: viewModel, drawing: DrawingView.drawing) == true {
+//                        currentAspectRatio(viewModel: viewModel, size: size)
+//                        //heightState = closestMultipleOfEight(Double(widthState) * viewModel.aspectRatio)
+//                        print("Images exist = true")
+//                        if viewModel.background == nil {
+//                            print("background = nil")
+//                        }
+//                        if DrawingView.drawing.bounds.isEmpty {
+//                            print("drawing is empty")
+//                        }
+//                        syncAspectRatio = true
+//                    } else {
+//                        syncAspectRatio = false
+//                    }
+//
+//                    viewModel.shouldBecomeFirstResponder = false
                 }
                 .onDisappear {
                     if viewModel.background == nil {
