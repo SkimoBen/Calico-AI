@@ -9,7 +9,8 @@ import Foundation
 import UIKit
 import SwiftUI
 
-//make the body of the HTTP request for the cerebrium API. This is in dictionary format.
+//For calculating token use per generation
+var tokensPerSecond = 0.6
 
 //need em
 var positivePrompt = ""
@@ -22,9 +23,10 @@ var seed = 0
 var strength = 0.3
 var num_images_per_prompt = 1
 
-
-//runwayml/stable-diffusion-v1-5
-//prompthero/openjourney
+//extra models
+///runwayml/stable-diffusion-v1-5
+///prompthero/openjourney
+//make the body of the HTTP request for the cerebrium API. This is in dictionary format.
 var cerebriumJSONObject: [String: Any] = [
     "prompt": "\(positivePrompt)",
     "base64Image": "\(base64ImageString)",
@@ -108,7 +110,7 @@ func makeJsonPayload(cerebriumJSONObject: [String: Any]) -> Data {
 
 var endPointURL: String = "no pls"
 
-func sendIt(completion: @escaping (UIImage?) -> Void, failure: @escaping (String) -> Void) {
+func sendIt(userViewModel: UserViewModel, completion: @escaping (UIImage?) -> Void, failure: @escaping (String) -> Void) {
     let decoder = JSONDecoder()
 
     guard let url = URL(string: endPointURL) else {
@@ -176,6 +178,13 @@ func sendIt(completion: @escaping (UIImage?) -> Void, failure: @escaping (String
                 userRunTime.totalRunTime += DecodedData.runTimeMs / 1000
                 userRunTime.monthlyRunTime += DecodedData.runTimeMs / 1000
                 runTimeHelper.save(runTime: userRunTime)
+                
+                //calculate token use
+                let usedTokens = (DecodedData.runTimeMs / 1000) * tokensPerSecond
+                DispatchQueue.main.async {
+                    userViewModel.currentTokens -= Int(usedTokens)
+                }
+                
                 
                 DispatchQueue.main.async {
                     completion(processedImage)

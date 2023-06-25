@@ -25,7 +25,7 @@ class ViewModelClass: ObservableObject {
 class UserViewModel: ObservableObject {
     
     //    @Published var isPurchasing = false
-    @Published var currentUserEntitlements: PermissionsStruct = UserEntitlements().Trial ///DONT   FORGET   TO   SET   TO   TRIAL
+    @Published var currentUserEntitlements: PermissionsStruct = UserEntitlements().Illusionist ///DONT   FORGET   TO   SET   TO   TRIAL
     @Published var totalPurchases: Int {
         didSet {
             //save the current tokens to user defaults every time it changes.

@@ -165,7 +165,7 @@ struct ContentView: View {
         //MARK: Bottom of the ZStack, this shows the image generation view.
         .fullScreenCover(isPresented: $showAIGenerationView) {
             AIGenerationView(image: $generatedImage, failure: $generationFailure, showAIGenerationView: $showAIGenerationView).onAppear {
-                sendIt(completion: { (image) in
+                sendIt(userViewModel: userViewModel, completion: { (image) in
                     self.generatedImage = image
                 }, failure: { (error) in
                     withAnimation {
