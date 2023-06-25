@@ -79,19 +79,19 @@ class UserViewModel: ObservableObject {
         //initialize the UserViewModel by calling the Revenue Cat DB to check for the users entitlement. Entitlements control the permissions inside the app.
         Purchases.shared.getCustomerInfo { (customerInfo, error) in
             
-            //This is only because a user could upgrade from the apple settings thing. 
-            if self.lastKnownTitle != self.currentUserEntitlements.title {
-                print(self.lastKnownTitle)
-                print(self.currentUserEntitlements.title)
-                self.currentTokens += self.currentUserEntitlements.monthlyTokens
-                self.lastKnownTitle = self.currentUserEntitlements.title
-            }
+            
             
             //MARK: Apprentice initialization
             if customerInfo?.entitlements.all["Apprentice"]?.isActive == true {
                 /// User is "Apprentice"
                 self.currentUserEntitlements = UserEntitlements().Apprentice
-                
+                //This is only because a user could upgrade from the apple settings thing.
+                if self.lastKnownTitle != self.currentUserEntitlements.title {
+                    print(self.lastKnownTitle)
+                    print(self.currentUserEntitlements.title)
+                    self.currentTokens += self.currentUserEntitlements.monthlyTokens
+                    self.lastKnownTitle = self.currentUserEntitlements.title
+                }
                 //Get the last purchase date from revenueCat
                 let PDate = DateToInt(Date: (customerInfo?.entitlements.all["Apprentice"]?.latestPurchaseDate)!)
                 let willRenew = customerInfo?.entitlements.all["Apprentice"]?.willRenew
@@ -105,7 +105,13 @@ class UserViewModel: ObservableObject {
             } else if (customerInfo?.entitlements.all["Sorcerer"]?.isActive == true ) {
                 /// User is "Sorcerer"
                 self.currentUserEntitlements = UserEntitlements().Sorcerer
-             
+                //This is only because a user could upgrade from the apple settings thing.
+                if self.lastKnownTitle != self.currentUserEntitlements.title {
+                    print(self.lastKnownTitle)
+                    print(self.currentUserEntitlements.title)
+                    self.currentTokens += self.currentUserEntitlements.monthlyTokens
+                    self.lastKnownTitle = self.currentUserEntitlements.title
+                }
                 let PDate = DateToInt(Date: (customerInfo?.entitlements.all["Sorcerer"]?.latestPurchaseDate)!)
                 let willRenew = customerInfo?.entitlements.all["Sorcerer"]?.willRenew
                 
@@ -115,7 +121,13 @@ class UserViewModel: ObservableObject {
             } else if (customerInfo?.entitlements.all["Illusionist"]?.isActive == true ) {
                 /// User is "Illusionist
                 self.currentUserEntitlements = UserEntitlements().Illusionist
-
+                //This is only because a user could upgrade from the apple settings thing.
+                if self.lastKnownTitle != self.currentUserEntitlements.title {
+                    print(self.lastKnownTitle)
+                    print(self.currentUserEntitlements.title)
+                    self.currentTokens += self.currentUserEntitlements.monthlyTokens
+                    self.lastKnownTitle = self.currentUserEntitlements.title
+                }
                 let PDate = DateToInt(Date: (customerInfo?.entitlements.all["Illusionist"]?.latestPurchaseDate)!)
                 let willRenew = customerInfo?.entitlements.all["Illusionist"]?.willRenew
                 
@@ -186,9 +198,9 @@ class UserViewModel: ObservableObject {
             let latestPurchaseDateAsDate = Date(timeIntervalSince1970: TimeInterval(self.latestPurchaseDate))
             
             // Calculate the date one month from latestPurchaseDate
-            let refillDateAsDate = Calendar.current.date(byAdding: .second, value: 100, to: latestPurchaseDateAsDate)
+            let refillDateAsDate = Calendar.current.date(byAdding: .month, value: 1, to: latestPurchaseDateAsDate)
             
-            // Convert refillDate back to Unix timestamp (Int)
+            // Convert refillDate back to Unix timestamp (Int). refill date is mostly just for aesthethics 
             self.refillDate = Int(refillDateAsDate!.timeIntervalSince1970)
         }
     }

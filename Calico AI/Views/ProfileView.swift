@@ -59,37 +59,53 @@ struct ProfileView: View {
                 
                 PillBarView(firstText: "Current Credits", secondText: "\(userViewModel.currentTokens)")
                 
-                PillBarView(firstText: "Next topup", secondText: "\(Date(timeIntervalSince1970: TimeInterval(userViewModel.refillDate)))")
+                PillBarView(firstText: "Next topup", secondText: "\(Date(timeIntervalSince1970: TimeInterval(userViewModel.refillDate)).formatted(.dateTime.day().month().year()))")
             }
             .padding(.bottom, 40)
-        //.formatted(.dateTime.day().month().year())
+        //
 ///------------------------------------------------------------------------------------
         
             //MARK: Buttons View
             HStack {
-                Button(action: {
-                    
-                }, label: {
-                    Text("Privacy Policy")
-                        .frame(maxWidth: 110)
-                        .padding(8)
-                        .background(Material.bar)
-                        .background(.purple.opacity(0.5))
-                        .clipShape(RoundedRectangle(cornerRadius: 40))
-                        .overlay(RoundedRectangle(cornerRadius: 40).stroke(Color.blue, lineWidth: 1))
-                })
+//                Button(action: {
+//
+//                }, label: {
+//                    Text("Privacy Policy")
+//                        .frame(maxWidth: 110)
+//                        .padding(8)
+//                        .background(Material.bar)
+//                        .background(.purple.opacity(0.5))
+//                        .clipShape(RoundedRectangle(cornerRadius: 40))
+//                        .overlay(RoundedRectangle(cornerRadius: 40).stroke(Color.blue, lineWidth: 1))
+//                })
+                Link("Privacy Policy", destination: URL(string: "https://www.freeprivacypolicy.com/live/b60ca8c5-2d36-4b38-a65d-423eff3f4b07")!)
+                    .frame(maxWidth: 110)
+                    .padding(8)
+                    .background(Material.bar)
+                    .background(.blue.opacity(0.1))
+                    .clipShape(RoundedRectangle(cornerRadius: 40))
+                    .overlay(RoundedRectangle(cornerRadius: 40).stroke(Color.blue.opacity(0.5), lineWidth: 1))
                 Spacer()
-                Button(action: {
-                    
-                }, label: {
-                    Text("Terms of Use")
-                        .frame(maxWidth: 110)
-                        .padding(8)
-                        .background(Material.bar)
-                        .background(.purple.opacity(0.5))
-                        .clipShape(RoundedRectangle(cornerRadius: 40))
-                        .overlay(RoundedRectangle(cornerRadius: 40).stroke(Color.blue, lineWidth: 1))
-                })
+                
+                Link("Terms of Use", destination: URL(string:"https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!)
+                    .frame(maxWidth: 110)
+                    .padding(8)
+                    .background(Material.bar)
+                    .background(.blue.opacity(0.1))
+                    .clipShape(RoundedRectangle(cornerRadius: 40))
+                    .overlay(RoundedRectangle(cornerRadius: 40).stroke(Color.blue.opacity(0.5), lineWidth: 1))
+                
+//                Button(action: {
+//
+//                }, label: {
+//                    Text("Terms of Use")
+//                        .frame(maxWidth: 110)
+//                        .padding(8)
+//                        .background(Material.bar)
+//                        .background(.purple.opacity(0.5))
+//                        .clipShape(RoundedRectangle(cornerRadius: 40))
+//                        .overlay(RoundedRectangle(cornerRadius: 40).stroke(Color.blue, lineWidth: 1))
+//                })
             }
             .frame(maxWidth: 300)
             .padding()
@@ -102,9 +118,9 @@ struct ProfileView: View {
                         .frame(maxWidth: 110)
                         .padding(8)
                         .background(Material.bar)
-                        .background(.purple.opacity(0.5))
+                        .background(.blue.opacity(0.1))
                         .clipShape(RoundedRectangle(cornerRadius: 40))
-                        .overlay(RoundedRectangle(cornerRadius: 40).stroke(Color.blue, lineWidth: 1))
+                        .overlay(RoundedRectangle(cornerRadius: 40).stroke(Color.blue.opacity(0.5), lineWidth: 1))
                 })
                 Spacer()
                 
@@ -115,9 +131,9 @@ struct ProfileView: View {
                         .frame(maxWidth: 110)
                         .padding(8)
                         .background(Material.bar)
-                        .background(.purple.opacity(0.5))
+                        .background(.blue.opacity(0.1))
                         .clipShape(RoundedRectangle(cornerRadius: 40))
-                        .overlay(RoundedRectangle(cornerRadius: 40).stroke(Color.blue, lineWidth: 1))
+                        .overlay(RoundedRectangle(cornerRadius: 40).stroke(Color.blue.opacity(0.5), lineWidth: 1))
                 })
             }
             .frame(maxWidth: 300)
@@ -139,9 +155,9 @@ struct ProfileView: View {
                     .frame(maxWidth: 150)
                     .padding(8)
                     .background(Material.bar)
-                    .background(.purple.opacity(0.5))
+                    .background(.blue.opacity(0.1))
                     .clipShape(RoundedRectangle(cornerRadius: 40))
-                    .overlay(RoundedRectangle(cornerRadius: 40).stroke(Color.blue, lineWidth: 1))
+                    .overlay(RoundedRectangle(cornerRadius: 40).stroke(Color.blue.opacity(0.5), lineWidth: 1))
             })
             Spacer()
             
