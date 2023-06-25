@@ -11,7 +11,7 @@ import SwiftUI
 class UserEntitlements {
     let Trial = PermissionsStruct(
         title: "Free Trial",
-        maxTokens: 100,
+        monthlyTokens: 100,
         maxResolution: 720,
         maxGenerations: 1,
         accentColour: [.orange],
@@ -22,7 +22,7 @@ class UserEntitlements {
    
     let Apprentice = PermissionsStruct(
         title: "Apprentice",
-        maxTokens: 1000,
+        monthlyTokens: 1000,
         maxResolution: 720,
         maxGenerations: 1,
         accentColour: [.purple, .pink],
@@ -32,7 +32,7 @@ class UserEntitlements {
     
     let Sorcerer = PermissionsStruct(
         title: "Sorcerer",
-        maxTokens: 6500,
+        monthlyTokens: 6500,
         maxResolution: 1024,
         maxGenerations: 2,
         accentColour: [.mint, .cyan],
@@ -42,7 +42,7 @@ class UserEntitlements {
     
     let Illusionist = PermissionsStruct(
         title: "Illusionist",
-        maxTokens: 0,
+        monthlyTokens: 20000,
         maxResolution: 2048,
         maxGenerations: 4,
         accentColour: [.cyan, .blue],
@@ -55,7 +55,7 @@ class UserEntitlements {
 
 struct PermissionsStruct {
     let title: String
-    let maxTokens: Int
+    let monthlyTokens: Int
     let maxResolution: Int
     let maxGenerations: Int
     let accentColour: [Color]

@@ -126,6 +126,11 @@ struct ContentView: View {
             }
             
         }
+        //For debgging
+        .onAppear {
+            print(userViewModel.currentUserEntitlements)
+            
+        }
         //alert is for calling the API and switching to image gen view
         .alert(isPresented: $showingAlert) {
             Alert(title: Text("Generate Image?"), message: Text("Do you want to generate an image from your drawing? This will take ~1 minute"), primaryButton: .default(Text("Yes")) {

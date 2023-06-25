@@ -28,7 +28,7 @@ struct EntitlementsView: View {
                 .frame(maxWidth: 20)
                 .foregroundColor(Color.blue)
             
-            Text("6500")
+            Text("\(userViewModel.currentTokens)")
                 .font(.caption)
                 .foregroundColor(userViewModel.currentUserEntitlements.accentColour[0])
             
@@ -141,10 +141,14 @@ struct EditorsButtonsView: View {
     @Binding var showProfileView: Bool
     @Binding var showPaywallView: Bool
     @Binding var showPromptView: Bool
+    @EnvironmentObject var userViewModel: UserViewModel
     var body: some View {
         VStack {
             //PromptView button
             Button(action: {
+                print(userViewModel.currentUserEntitlements)
+                print("Latest Purchase Date: \( Date(timeIntervalSince1970: TimeInterval(userViewModel.latestPurchaseDate)))")
+                print("Refill Date: \( Date(timeIntervalSince1970: TimeInterval(userViewModel.refillDate)))")
                 //this is to solve the menu bug which causes sheets to stop working if tapped when menu is open.
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     showPromptView = true

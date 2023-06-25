@@ -9,7 +9,12 @@ import Foundation
 import SwiftUI
 import PencilKit
 
-
+func DateToInt(Date: Date) -> Int {
+    let timeInterval = Date.timeIntervalSince1970
+    let IntDate = Int(timeInterval)
+    
+    return IntDate
+}
 
 func ChooseEndpoint(preProcessor: String) -> String {
     let cerebriumPart1 = "https://run.cerebrium.ai/v2/p-2f24fdd5/cerebriumpart1/predict"

@@ -47,7 +47,7 @@ func MaxGenerations(UserMax: Int, currentWidth: Int, currentHeight: Int) -> Int 
         
         var body: some View {
             let maxResolution = userViewModel.currentUserEntitlements.maxResolution
-            let userMaxGenerations = userViewModel.currentUserEntitlements.maxGenerations
+            
             
             Group {
                 VStack {
@@ -69,7 +69,7 @@ func MaxGenerations(UserMax: Int, currentWidth: Int, currentHeight: Int) -> Int 
                             widthState = min(Int(newValue), maxResolution)
                         }
                         //check the max gnerations
-                        maxGenerations = MaxGenerations(UserMax: userMaxGenerations, currentWidth: widthState, currentHeight: heightState)
+                        maxGenerations = MaxGenerations(UserMax: userViewModel.currentUserEntitlements.maxGenerations, currentWidth: widthState, currentHeight: heightState)
                     
                     }), in: 8...Double(maxResolution), step: 8)
                     
@@ -92,7 +92,8 @@ func MaxGenerations(UserMax: Int, currentWidth: Int, currentHeight: Int) -> Int 
                         }
 
                         //check the max gnerations
-                        maxGenerations = MaxGenerations(UserMax: userMaxGenerations, currentWidth: widthState, currentHeight: heightState)
+                        maxGenerations = MaxGenerations(UserMax: userViewModel.currentUserEntitlements.maxGenerations, currentWidth: widthState, currentHeight: heightState)
+                        
                     }), in: 8...Double(maxResolution), step: 8)
                     
                     Toggle(isOn: $syncAspectRatio) {
@@ -115,11 +116,11 @@ func MaxGenerations(UserMax: Int, currentWidth: Int, currentHeight: Int) -> Int 
                             
                         }
                     }
-                    
+                    //MARK: Generations
                     HStack {
                         Text("Generations: \(Int(numImages))")
                             .frame(maxWidth: 130, alignment: .leading)
-                        if (heightState > 1600 || widthState > 1600) || userMaxGenerations == 1 {
+                        if (heightState > 1600 || widthState > 1600) || userViewModel.currentUserEntitlements.maxGenerations == 1 {
                             Spacer()
                         } else {
                             Slider(value: $numImages, in: 1...Double(maxGenerations), step: 1)
@@ -135,7 +136,9 @@ func MaxGenerations(UserMax: Int, currentWidth: Int, currentHeight: Int) -> Int 
                         numImages = Double(newValue)
                     }
                 }
-                
+                .onAppear {
+                    maxGenerations = MaxGenerations(UserMax: userViewModel.currentUserEntitlements.maxGenerations, currentWidth: widthState, currentHeight: heightState)
+                }
             }
         }
     }

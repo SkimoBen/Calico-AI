@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RevenueCat
 
 struct ProfileView: View {
     //Allow the user to dismiss the view
@@ -56,12 +57,14 @@ struct ProfileView: View {
                 PillBarView(firstText: "Current Plan",
                             secondText: userViewModel.currentUserEntitlements.title)
                 
-                PillBarView(firstText: "Current Credits", secondText: "1000")
+                PillBarView(firstText: "Current Credits", secondText: "\(userViewModel.currentTokens)")
                 
-                PillBarView(firstText: "Next topup", secondText: "July 20th, 2023")
+                PillBarView(firstText: "Next topup", secondText: "\(Date(timeIntervalSince1970: TimeInterval(userViewModel.refillDate)))")
             }
             .padding(.bottom, 40)
+        //.formatted(.dateTime.day().month().year())
 ///------------------------------------------------------------------------------------
+        
             //MARK: Buttons View
             HStack {
                 Button(action: {
@@ -121,7 +124,16 @@ struct ProfileView: View {
             .padding()
            
             Button(action: {
-                
+                Purchases.shared.restorePurchases { (customerInfo, error) in
+                    //... check customerInfo to see if entitlement is now active
+                    if customerInfo?.entitlements.all["Apprentice"]?.isActive == true {
+                        userViewModel.currentUserEntitlements = UserEntitlements().Apprentice
+                    } else if customerInfo?.entitlements.all["Sorcerer"]?.isActive == true  {
+                        userViewModel.currentUserEntitlements = UserEntitlements().Sorcerer
+                    } else if customerInfo?.entitlements.all["Illusionist"]?.isActive == true{
+                        userViewModel.currentUserEntitlements = UserEntitlements().Illusionist
+                    }
+                }
             }, label: {
                 Text("Restore Purchases")
                     .frame(maxWidth: 150)
@@ -138,6 +150,8 @@ struct ProfileView: View {
     }
 }
 
+///------------------------------------------------------------------------------------
+//MARK: Pillbar Struct
 struct PillBarView: View {
     var firstText: String
     var secondText: String
@@ -160,6 +174,8 @@ struct PillBarView: View {
     }
 }
 
+///------------------------------------------------------------------------------------
+//MARK: Previews
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         ProfileView(showProfileView: .constant(true))
