@@ -96,6 +96,7 @@ func MaxGenerations(UserMax: Int, currentWidth: Int, currentHeight: Int) -> Int 
                         
                     }), in: 8...Double(maxResolution), step: 8)
                     
+                    //Sync aspect Ratio
                     Toggle(isOn: $syncAspectRatio) {
                         Text("Sync Aspect Ratio")
                     }
@@ -105,12 +106,13 @@ func MaxGenerations(UserMax: Int, currentWidth: Int, currentHeight: Int) -> Int 
                         if newValue {
                             if viewModel.aspectRatio < 1 {
                                 //landscape mode
-                                widthState = maxResolution
+                                widthState = maxResolution / 2
                                 heightState = closestMultipleOfEight(Double(widthState) * viewModel.aspectRatio)
                             } else {
                                 //portrait mode
-                                heightState = maxResolution
+                                heightState = maxResolution / 2
                                 widthState = closestMultipleOfEight(Double(heightState) / viewModel.aspectRatio)
+                                print(viewModel.aspectRatio)
                             }
                             
                             

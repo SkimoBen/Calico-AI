@@ -19,6 +19,7 @@ class ViewModelClass: ObservableObject {
     @Published var useTxt2Img: Bool = true
     @Published var enhancedPrompt: String = ""
     @Published var numImagesMax: Double = 4
+    //@Published var canvasSize: CGFloat = 200
 }
 
 //MARK: UserViewModel Class
@@ -170,7 +171,7 @@ class UserViewModel: ObservableObject {
                 ///Make the refill date. Needs to happen here because trials dont have RevenueCat purchase dates.
                 latestPurchaseDateAsDate = Date(timeIntervalSince1970: TimeInterval(self.latestPurchaseDate))
                 
-                print("Latest Purchase Date: \(latestPurchaseDateAsDate)")
+                //DEBUG: print("Latest Purchase Date: \(latestPurchaseDateAsDate)")
                 // Calculate the date one month from latestPurchaseDate
                 let refillDateAsDate = Calendar.current.date(byAdding: .month, value: 1, to: latestPurchaseDateAsDate)
                 

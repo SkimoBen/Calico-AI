@@ -145,9 +145,6 @@ struct EditorsButtonsView: View {
         VStack {
             //PromptView button
             Button(action: {
-                print(userViewModel.currentUserEntitlements)
-                print("Latest Purchase Date: \( Date(timeIntervalSince1970: TimeInterval(userViewModel.latestPurchaseDate)))")
-                print("Refill Date: \( Date(timeIntervalSince1970: TimeInterval(userViewModel.refillDate)))")
                 //this is to solve the menu bug which causes sheets to stop working if tapped when menu is open.
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     showPromptView = true

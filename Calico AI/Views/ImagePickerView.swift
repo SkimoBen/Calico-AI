@@ -59,7 +59,7 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
                 viewModel.shouldBecomeFirstResponder = true
             }
             
-            print(viewModel.background ?? "nil")
+            //print(viewModel.background ?? "nil")
         }
         
         

@@ -16,8 +16,9 @@ struct ContentView: View {
     
     @State var DrawingView = DrawingView_UIView()
     @State var size: CGSize = .zero //size of canvas
-    
-    
+    ///@State var viewSize: CGSize = .zero //size of view
+    ///var defaultAspectRatio = 1.4 //equates to 512 X 720
+    ///
     //for the API image
     @State var generatedImage: UIImage? = nil
     @State var generatedImages: [UIImage]? = nil
@@ -74,6 +75,8 @@ struct ContentView: View {
                 } else {
                     
                     DrawingView
+                        //set default canvas AR
+                        //.frame(height: viewSize.width * defaultAspectRatio)
                         .saveSize(in: $size) //Size for the scribble.
                         .onAppear {
                             viewModel.shouldBecomeFirstResponder = true
@@ -134,6 +137,8 @@ struct ContentView: View {
             }
             
         }
+        //.saveSize(in: $viewSize) //for changing canvas size. TODO: Make this work.
+        
         //For debgging
 //        .onAppear {
 //            print(userViewModel.currentUserEntitlements)
@@ -183,18 +188,7 @@ struct ContentView: View {
                 })
             }
         }
-//        .fullScreenCover(isPresented: $showAIGenerationView) {
-//            AIGenerationView(image: $generatedImage, failure: $generationFailure, showAIGenerationView: $showAIGenerationView).onAppear {
-//                sendIt(userViewModel: userViewModel, completion: { (image) in
-//                    self.generatedImage = image
-//                }, failure: { (error) in
-//                    withAnimation {
-//                        self.generationFailure = error
-//                    }
-//
-//                })
-//            }
-//        }
+
         .fullScreenCover(isPresented: $showProfileView) {
             ProfileView(showProfileView: $showProfileView, showPaywallView: $showPaywallView)
 
@@ -209,23 +203,7 @@ struct ContentView: View {
                         firstAppearance = false
                     }
                     
-                    //do this so that it isn't set to 512 X 512, but rather the actual aspect ratio.
-//                    if ImagesExist(viewModel: viewModel, drawing: DrawingView.drawing) == true {
-//                        currentAspectRatio(viewModel: viewModel, size: size)
-//                        //heightState = closestMultipleOfEight(Double(widthState) * viewModel.aspectRatio)
-//                        print("Images exist = true")
-//                        if viewModel.background == nil {
-//                            print("background = nil")
-//                        }
-//                        if DrawingView.drawing.bounds.isEmpty {
-//                            print("drawing is empty")
-//                        }
-//                        syncAspectRatio = true
-//                    } else {
-//                        syncAspectRatio = false
-//                    }
-//
-//                    viewModel.shouldBecomeFirstResponder = false
+
                 }
                 .onDisappear {
                     if viewModel.background == nil {

@@ -120,6 +120,7 @@ struct PromptView: View {
                             
                             //MARK: Image dimensions group
                            ImageDimensionsView(syncAspectRatio: $syncAspectRatio, numImages: $numImages, widthState: $widthState, heightState: $heightState)
+                               
                             
                             
                             //MARK: Advanced Settings Group

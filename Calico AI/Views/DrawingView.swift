@@ -36,7 +36,7 @@ struct DrawingView_UIView: UIViewRepresentable {
         
         self.canvasView.backgroundColor = .clear
         self.canvasView.isOpaque = false
-        
+        //self.canvasView.contentSize.height = 100
         
         picker.addObserver(canvasView)
         picker.setVisible(true, forFirstResponder: canvasView)
