@@ -166,7 +166,7 @@ struct ContentView: View {
                     showAIGenerationView = true
                 } else {
                     returnBase64Image(completion: {
-                        print("completion success, calling sendit")
+                        //print("completion success, calling sendit")
                         //Then show the user the AI generation view in a fullscreen modal
                         showAIGenerationView = true
                     })

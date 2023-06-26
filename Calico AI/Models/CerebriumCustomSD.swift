@@ -43,8 +43,8 @@ func updateCerebriumJSONObject_customSD() {
     cerebriumJSONObject_customSD["width"] = imageWidth
     cerebriumJSONObject_customSD["num_inference_steps"] = samples
     
-    print("updated Cerebrium JSON Object")
-    print(cerebriumJSONObject_customSD)
+    //print("updated Cerebrium JSON Object")
+    //print(cerebriumJSONObject_customSD)
 }
 
 //format the dictionary body into proper json for the HTTP request.

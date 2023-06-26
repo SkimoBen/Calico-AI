@@ -112,7 +112,7 @@ func MaxGenerations(UserMax: Int, currentWidth: Int, currentHeight: Int) -> Int 
                                 //portrait mode
                                 heightState = maxResolution / 2
                                 widthState = closestMultipleOfEight(Double(heightState) / viewModel.aspectRatio)
-                                print(viewModel.aspectRatio)
+                                
                             }
                             
                             

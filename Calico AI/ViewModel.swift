@@ -26,7 +26,7 @@ class ViewModelClass: ObservableObject {
 class UserViewModel: ObservableObject {
     
     //    @Published var isPurchasing = false
-    @Published var currentUserEntitlements: PermissionsStruct = UserEntitlements().Illusionist ///DONT   FORGET   TO   SET   TO   TRIAL
+    @Published var currentUserEntitlements: PermissionsStruct = UserEntitlements().Trial ///DONT   FORGET   TO   SET   TO   TRIAL
     @Published var totalPurchases: Int {
         didSet {
             //save the current tokens to user defaults every time it changes.
@@ -100,8 +100,8 @@ class UserViewModel: ObservableObject {
                 self.currentUserEntitlements = UserEntitlements().Apprentice
                 //This is only because a user could upgrade from the apple settings thing.
                 if self.lastKnownTitle != self.currentUserEntitlements.title {
-                    print(self.lastKnownTitle)
-                    print(self.currentUserEntitlements.title)
+//                    print(self.lastKnownTitle)
+//                    print(self.currentUserEntitlements.title)
                     self.currentTokens += self.currentUserEntitlements.monthlyTokens
                     self.lastKnownTitle = self.currentUserEntitlements.title
                 }
@@ -120,8 +120,8 @@ class UserViewModel: ObservableObject {
                 self.currentUserEntitlements = UserEntitlements().Sorcerer
                 //This is only because a user could upgrade from the apple settings thing.
                 if self.lastKnownTitle != self.currentUserEntitlements.title {
-                    print(self.lastKnownTitle)
-                    print(self.currentUserEntitlements.title)
+//                    print(self.lastKnownTitle)
+//                    print(self.currentUserEntitlements.title)
                     self.currentTokens += self.currentUserEntitlements.monthlyTokens
                     self.lastKnownTitle = self.currentUserEntitlements.title
                 }
@@ -136,8 +136,8 @@ class UserViewModel: ObservableObject {
                 self.currentUserEntitlements = UserEntitlements().Illusionist
                 //This is only because a user could upgrade from the apple settings thing.
                 if self.lastKnownTitle != self.currentUserEntitlements.title {
-                    print(self.lastKnownTitle)
-                    print(self.currentUserEntitlements.title)
+//                    print(self.lastKnownTitle)
+//                    print(self.currentUserEntitlements.title)
                     self.currentTokens += self.currentUserEntitlements.monthlyTokens
                     self.lastKnownTitle = self.currentUserEntitlements.title
                 }

@@ -149,7 +149,7 @@ func resizeImage(image: UIImage, targetLength: CGFloat) -> UIImage {
     }
     
     let renderer = UIGraphicsImageRenderer(size: targetSize)
-    print("target size: \(targetSize)")
+    //print("target size: \(targetSize)")
     let resizedImage = renderer.image { _ in
         image.draw(in: CGRect(origin: .zero, size: targetSize))
     }

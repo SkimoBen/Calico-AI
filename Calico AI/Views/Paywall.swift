@@ -105,7 +105,7 @@ struct Paywall: View {
                 Alert(title: Text("Error"), message: Text("Sorry, we encountered an error while processing your order."), dismissButton: .default(Text("OK")))
             }
             .onAppear {
-                print("getting current offerings")
+                //print("getting current offerings")
                 Purchases.shared.getOfferings { offerings, error in
                     if let offer = offerings?.current, error == nil {
                         currentOffering = offer

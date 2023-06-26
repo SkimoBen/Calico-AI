@@ -58,17 +58,16 @@ func currentAspectRatio(viewModel: ViewModelClass, size: CGSize) {
     } else {
         width = Double((viewModel.background?.size.width)!)
         height = Double((viewModel.background?.size.height)!)
-        print("width: \(width)")
-        print("height \(height)")
+
     }
     
     //this if statement is basically to set aspect ratio depending on portrait or landscape mode.
     if (height >= width) {
         viewModel.aspectRatio = height / width
-        print("aspect ratio = height / width \(height / width)")
+        
     } else {
         viewModel.aspectRatio = height / width
-        print("aspect ratio = width / height \(height / width)")
+
     }
    
 }
