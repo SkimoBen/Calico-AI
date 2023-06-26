@@ -102,16 +102,23 @@ struct ContentView: View {
                         .shadow(color: .primary.opacity(0.5), radius: 10 )
                     Spacer() //fill space between elements
                     
-                    Button(action: {
-                        //need for the Menu bug. 
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            showPaywallView.toggle()
-                        }
+                    VStack {
+                        Button(action: {
+                            //need for the Menu bug.
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                showPaywallView.toggle()
+                            }
+                            
+                        }, label: {
+                            EntitlementsView()
+                                .shadow(color: userViewModel.currentUserEntitlements.accentColour[0].opacity(0.5), radius: 5 )
+                                
+                        })
+                        .padding(.bottom, 60)
                         
-                    }, label: {
-                        EntitlementsView()
-                            .shadow(color: userViewModel.currentUserEntitlements.accentColour[0].opacity(0.5), radius: 5 )
-                    })
+                    }
+                    
+                   
                     
                     Spacer()
                     

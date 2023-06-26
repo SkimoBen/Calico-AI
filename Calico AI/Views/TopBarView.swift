@@ -34,10 +34,9 @@ struct EntitlementsView: View {
             
         }
         .padding(8)
-        //.overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.gray, lineWidth: 1))
         .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 30))
-        .padding(.bottom, 100)
+        
         
         
     }
