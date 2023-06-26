@@ -32,7 +32,7 @@ var cerebriumJSONObject: [String: Any] = [
     "base64Image": "\(base64ImageString)",
     //"file_url": "https://github.com/SkimoBen/Photos/blob/ef2a2e52bb2ceb6923bedd11bc02c226902b33b5/leaves.jpg?raw=true",
     //"hf_token": "<your_token>",
-    "model_id": "prompthero/openjourney-v4",
+    "model_id": "prompthero/openjourney",
     "height": imageHeight,
     "width": imageWidth,
     "num_inference_steps": samples,
@@ -110,15 +110,13 @@ func makeJsonPayload(cerebriumJSONObject: [String: Any]) -> Data {
 
 var endPointURL: String = "no pls"
 
-func sendIt(userViewModel: UserViewModel, completion: @escaping (UIImage?) -> Void, failure: @escaping (String) -> Void) {
+func sendIt(userViewModel: UserViewModel, completion: @escaping ([UIImage]?) -> Void, failure: @escaping (String) -> Void) {
     let decoder = JSONDecoder()
 
     guard let url = URL(string: endPointURL) else {
         return
     }
 
-    //API Key for customCtrlNet public-bbf531a4a3bd3748f814
-    //API Key for prebuilt ControlNet public-4cd3d7e4bcc266780ffd
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
     request.addValue("public-bbf531a4a3bd3748f814", forHTTPHeaderField:"Authorization")
@@ -134,14 +132,7 @@ func sendIt(userViewModel: UserViewModel, completion: @escaping (UIImage?) -> Vo
             }
             return
         }
-        
-        //for debugging the bad data
-//        if let data = data {
-//            print(String(data: data, encoding: .utf8) ?? "Failed to convert data to string")
-//        } else {
-//            print("Data is nil")
-//        }
-        
+
         guard let data = data else {
             print("Empty data")
             DispatchQueue.main.async {
@@ -149,7 +140,8 @@ func sendIt(userViewModel: UserViewModel, completion: @escaping (UIImage?) -> Vo
             }
             return
         }
-
+        var imagesArray: [UIImage] = [] // Initialize array
+        
         do {
             let DecodedData = try decoder.decode(CerebriumResponse.self, from: data)
 
@@ -169,43 +161,25 @@ func sendIt(userViewModel: UserViewModel, completion: @escaping (UIImage?) -> Vo
                     }
                     return
                 }
-
+                //add the image to the array for the view, and save it to photos
+                imagesArray.append(processedImage)
                 UIImageWriteToSavedPhotosAlbum(processedImage, nil, nil, nil)
-                
-                //save the runtime data to user defaults:
-                let runTimeHelper = RunTimeHelper()
-                var userRunTime = runTimeHelper.getRunTime()
-                userRunTime.totalRunTime += DecodedData.runTimeMs / 1000
-                userRunTime.monthlyRunTime += DecodedData.runTimeMs / 1000
-                runTimeHelper.save(runTime: userRunTime)
-                
-                //calculate token use
-                let usedTokens = (DecodedData.runTimeMs / 1000) * tokensPerSecond
-                DispatchQueue.main.async {
-                    userViewModel.deductTokens(amount: Int(usedTokens))
-                    print("current tokens: \(userViewModel.currentTokens)")
-                    print("current trial tokens: \(userViewModel.currentTrialTokens)")
-                    print("total tokens: \(userViewModel.currentTokens)")
-                }
-                
-                
-                DispatchQueue.main.async {
-                    completion(processedImage)
-                    print("image saved to photos")
-                    print("Monthly run time: \(userRunTime.monthlyRunTime)")
-                    print("Total run time: \(userRunTime.totalRunTime)")
-                    
-                }
+   
             }
+            DispatchQueue.main.async {
+                completion(imagesArray) // Pass the array to the completion handler
+                print("images saved to photos")
+            }
+
         } catch {
             print("Error decoding JSON: \(error)")
-            
             DispatchQueue.main.async {
                 failure("Failed due to error decoding JSON: \(error.localizedDescription)")
             }
         }
     }.resume()
 }
+
 
 
 

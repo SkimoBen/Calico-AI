@@ -11,7 +11,8 @@ import SwiftUI
 struct AIGenerationView: View {
     //Allow the user to dismiss the view
     @Environment(\.dismiss) var dismiss
-    @Binding var image: UIImage?
+    //@Binding var image: UIImage?
+    @Binding var images: [UIImage]?
     @Binding var failure: String
     @Binding var showAIGenerationView: Bool
     
@@ -19,10 +20,21 @@ struct AIGenerationView: View {
         
         ZStack {
             
-            if let uiImage = image {
-                Image(uiImage: uiImage)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
+//            if let uiImage = image {
+//                Image(uiImage: uiImage)
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fit)
+            
+            if let images = images, !images.isEmpty {
+                TabView {
+                    ForEach(images, id: \.self) { uiImage in
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                    }
+                }
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+                .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
             } else {
                 MyProgressView(failure: $failure)
                 
@@ -31,7 +43,7 @@ struct AIGenerationView: View {
             VStack {
                 HStack {
                     Button(action: {
-                        image = nil
+                        images = nil
                         failure = ""
                         showAIGenerationView = false
                         dismiss()
@@ -197,9 +209,9 @@ struct TextProgressView: View {
 
 
 struct AIGenerationView_Previews: PreviewProvider {
-    @State static var dummyImage: UIImage? = nil
+    @State static var dummyImages: [UIImage]? = nil
     @State static var dummyFailure: String = ""
     static var previews: some View {
-        AIGenerationView(image: $dummyImage, failure: $dummyFailure, showAIGenerationView: .constant(true))
+        AIGenerationView(images: $dummyImages, failure: $dummyFailure, showAIGenerationView: .constant(true))
     }
 }

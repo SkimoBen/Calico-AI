@@ -227,10 +227,18 @@ struct PurchaseButton: View {
                         }
                     }
                 }, label: {
-                    Text("Subscribe")
-                        .padding(5)
-                        .foregroundColor(colorScheme == .dark ? .black : .white)
-                        .frame(maxWidth: 200)
+                    if userViewModel.currentUserEntitlements.title == entitlementID {
+                        Text("Current Plan")
+                            .padding(5)
+                            .foregroundColor(colorScheme == .dark ? .black : .white)
+                            .frame(maxWidth: 200)
+                    } else {
+                        Text("Subscribe")
+                            .padding(5)
+                            .foregroundColor(colorScheme == .dark ? .black : .white)
+                            .frame(maxWidth: 200)
+                    }
+                    
                 })
                 .background(RadialGradient(colors: buttonColor, center: .trailing, startRadius: 0, endRadius: 130))
                 .clipShape(Capsule())

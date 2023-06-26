@@ -12,7 +12,10 @@ struct ProfileView: View {
     //Allow the user to dismiss the view
     @Environment(\.dismiss) var dismiss
     @Binding var showProfileView:  Bool
+    @Binding var showPaywallView: Bool
     @EnvironmentObject var userViewModel: UserViewModel
+    @State var restorePurchasesError = false
+    @State var restorePurchaseSuccess = false
     @State var showFAQ: Bool = false
     var body: some View {
         //topbar
@@ -110,6 +113,11 @@ struct ProfileView: View {
                     Spacer()
                     
                     Button(action: {
+                        showProfileView = false
+                        dismiss()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4)  {
+                            showPaywallView = true
+                        }
                         
                     }, label: {
                         Text("Change Plan")
@@ -124,15 +132,22 @@ struct ProfileView: View {
                 .frame(maxWidth: 300)
                 .padding()
                
+                //MARK: Restore Purchases
                 Button(action: {
                     Purchases.shared.restorePurchases { (customerInfo, error) in
                         //... check customerInfo to see if entitlement is now active
                         if customerInfo?.entitlements.all["Apprentice"]?.isActive == true {
                             userViewModel.currentUserEntitlements = UserEntitlements().Apprentice
+                            restorePurchaseSuccess = true
                         } else if customerInfo?.entitlements.all["Sorcerer"]?.isActive == true  {
                             userViewModel.currentUserEntitlements = UserEntitlements().Sorcerer
+                            restorePurchaseSuccess = true
+                            
                         } else if customerInfo?.entitlements.all["Illusionist"]?.isActive == true{
                             userViewModel.currentUserEntitlements = UserEntitlements().Illusionist
+                            restorePurchaseSuccess = true
+                        } else if (error != nil) {
+                            restorePurchasesError = true
                         }
                     }
                 }, label: {
@@ -144,19 +159,51 @@ struct ProfileView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 40))
                         .overlay(RoundedRectangle(cornerRadius: 40).stroke(Color.blue.opacity(0.5), lineWidth: 1))
                 })
+                //Error alert
+                .alert(isPresented: $restorePurchasesError) {
+                    Alert(title: Text("Error"), message: Text("Sorry, we encountered an error while fetching your purchases."), dismissButton: .default(Text("OK")))
+                }
+                //Success Alert
+                .alert(isPresented: $restorePurchaseSuccess) {
+                    Alert(title: Text("Success"), message: Text("Your plan has been restored."), dismissButton: .default(Text("OK")))
+                }
+                
                 Spacer()
                 
             } ///:- VStack Bottom
           
-                
-                
-                FAQView(showFAQ: $showFAQ)
-                    .background(Material.ultraThin)
-                    .cornerRadius(10)
-                    .offset(x: 0, y: showFAQ ? 0 : 1000)
-                    //.animation(.easeInOut(duration: 3.0), value: showFAQ)
+            
+            
+            FAQView(showFAQ: $showFAQ)
+                .background(Material.ultraThin)
+                .cornerRadius(10)
+                .offset(x: 0, y: showFAQ ? 0 : 2000)
+                .animation(.easeInOut(duration: 0.7), value: showFAQ)
+                .gesture(
+                    DragGesture()
+                        .onEnded { value in
+                            // If the downward drag is more than 100 points, toggle showFAQ
+                            if value.translation.height > 100 {
+                                withAnimation {
+                                    showFAQ = false
+                                }
+                            }
+                        }
+                )
             
         }///:- ZStack Bottom
+        .gesture(
+            DragGesture()
+                .onEnded { value in
+                    // If the downward drag is more than 100 points, toggle showFAQ
+                    if value.translation.height > 100 {
+                        withAnimation {
+                            showProfileView = false
+                            dismiss()
+                        }
+                    }
+                }
+        )
     }
 }
 
@@ -245,7 +292,7 @@ struct PillBarView: View {
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         //FAQView()
-        ProfileView(showProfileView: .constant(true))
+        ProfileView(showProfileView: .constant(true), showPaywallView: .constant(false))
             .environmentObject(UserViewModel())
     }
 }
@@ -275,5 +322,6 @@ let faqList = [
     ("What happens if I downgrade my subscription?", "If you downgrade your subscription, you will be charged up front, however you will still have the capabilities of the previous tier until the next billing cycle. For example, if you downgrade from Illusionist to Sorcerer on June 15th, and your billing cycle ends on June 25th, you will be charged $9.99 on June 15th, but you will have Illusionist capabilities until June 25th when your subscription for Sorcerer begins. Your new credits will be issued on June 25th as well."),
     ("Do my credits expire?", "Paid credits do not expire, however free trials have a maximum of 100 credits per month. If you have a paid subscription and then cancel it, you will retain the credits you accumulated during the subscription period."),
     ("How do credits work?", "Generating beautiful images takes a lot of computational power. The credit system is a way to measure how much compute resources a particular image took to be created. Increasing the image dimensions, number of samples, and number of generations will also increase the number of credits a generation takes."),
-    ("Do I lose credits if the image generation fails?", "No, credits will only be deducted if the image is generated successfully.")
+    ("Do I lose credits if the image generation fails?", "No, credits will only be deducted if the image is generated successfully."),
+    ("Why does the max image generations change?", "Large images take a significantly longer time to process than smaller images. That's why we've set limits on how many images you can generate per prompt for a given resolution. This only effects the Illusionist tier, where you can generate 4 images up to 1024 resolution, then 2 images up to 1600 resolution. Any resolution over 1600 has a max of 1 image per generation. We wish we could let you generate as many images as you want, but our GPU's would run out of memory and melt! 🔥")
 ]

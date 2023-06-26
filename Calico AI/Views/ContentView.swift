@@ -20,6 +20,7 @@ struct ContentView: View {
     
     //for the API image
     @State var generatedImage: UIImage? = nil
+    @State var generatedImages: [UIImage]? = nil
     @State var generationFailure: String = ""
     //@State private var updateView = false //workaround for button tap bug
     
@@ -127,10 +128,10 @@ struct ContentView: View {
             
         }
         //For debgging
-        .onAppear {
-            print(userViewModel.currentUserEntitlements)
-            
-        }
+//        .onAppear {
+//            print(userViewModel.currentUserEntitlements)
+//            
+//        }
         //alert is for calling the API and switching to image gen view
         .alert(isPresented: $showingAlert) {
             Alert(title: Text("Generate Image?"), message: Text("Do you want to generate an image from your drawing? This will take ~1 minute"), primaryButton: .default(Text("Yes")) {
@@ -164,9 +165,9 @@ struct ContentView: View {
         }
         //MARK: Bottom of the ZStack, this shows the image generation view.
         .fullScreenCover(isPresented: $showAIGenerationView) {
-            AIGenerationView(image: $generatedImage, failure: $generationFailure, showAIGenerationView: $showAIGenerationView).onAppear {
-                sendIt(userViewModel: userViewModel, completion: { (image) in
-                    self.generatedImage = image
+            AIGenerationView(images: $generatedImages, failure: $generationFailure, showAIGenerationView: $showAIGenerationView).onAppear {
+                sendIt(userViewModel: userViewModel, completion: { (images) in
+                    self.generatedImages = images
                 }, failure: { (error) in
                     withAnimation {
                         self.generationFailure = error
@@ -175,8 +176,21 @@ struct ContentView: View {
                 })
             }
         }
+//        .fullScreenCover(isPresented: $showAIGenerationView) {
+//            AIGenerationView(image: $generatedImage, failure: $generationFailure, showAIGenerationView: $showAIGenerationView).onAppear {
+//                sendIt(userViewModel: userViewModel, completion: { (image) in
+//                    self.generatedImage = image
+//                }, failure: { (error) in
+//                    withAnimation {
+//                        self.generationFailure = error
+//                    }
+//
+//                })
+//            }
+//        }
         .fullScreenCover(isPresented: $showProfileView) {
-            ProfileView(showProfileView: $showProfileView)
+            ProfileView(showProfileView: $showProfileView, showPaywallView: $showPaywallView)
+
         }
         //MARK: PROMPT VIEW
         .sheet(isPresented: $showPromptView) {
@@ -291,7 +305,7 @@ struct ContentView: View {
             }
         }
         //DEBUG: save image here for debugging
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        //UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
         let jpegData = image.jpegData(compressionQuality: 1)
         
         

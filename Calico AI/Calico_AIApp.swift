@@ -21,7 +21,7 @@ struct Calico_AIApp: App {
     }
     //initialize the Revenue Cat purchases
     init() {
-        Purchases.logLevel = .error //set to debug if needed.
+        Purchases.logLevel = .debug //set to debug if needed.
         Purchases.configure(withAPIKey: "appl_QnniVIULUauINWMGECMiVXvRvyQ")
         
         
