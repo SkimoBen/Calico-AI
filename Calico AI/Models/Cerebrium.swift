@@ -182,7 +182,10 @@ func sendIt(userViewModel: UserViewModel, completion: @escaping (UIImage?) -> Vo
                 //calculate token use
                 let usedTokens = (DecodedData.runTimeMs / 1000) * tokensPerSecond
                 DispatchQueue.main.async {
-                    userViewModel.currentTokens -= Int(usedTokens)
+                    userViewModel.deductTokens(amount: Int(usedTokens))
+                    print("current tokens: \(userViewModel.currentTokens)")
+                    print("current trial tokens: \(userViewModel.currentTrialTokens)")
+                    print("total tokens: \(userViewModel.currentTokens)")
                 }
                 
                 

@@ -45,6 +45,12 @@ class UserViewModel: ObservableObject {
             UserDefaults.standard.set(currentTokens, forKey: "currentTokens")
         }
     }
+    @Published var currentTrialTokens: Int {
+        didSet {
+            //save the current tokens to user defaults every time it changes.
+            UserDefaults.standard.set(currentTrialTokens, forKey: "currentTrialTokens")
+        }
+    }
     @Published var refillDate: Int {
         didSet {
             //save the current tokens to user defaults every time it changes.
@@ -57,6 +63,9 @@ class UserViewModel: ObservableObject {
         }
     }
     
+    @Published var totalTokens: Int = 0
+
+    
     //initialize a default date...not using.
     let defaultDate = Calendar.current.date(byAdding: .month, value: 1, to: Date()) ?? Date()
     
@@ -68,13 +77,16 @@ class UserViewModel: ObservableObject {
         totalPurchases = UserDefaults.standard.integer(forKey: "totalPurchases")
         refillDate = UserDefaults.standard.integer(forKey: "refillDate")
         lastKnownTitle = UserDefaults.standard.string(forKey: "lastKnownTitle") ?? "Free Trial"
+        currentTrialTokens = UserDefaults.standard.integer(forKey: "currentTrialTokens")
         
         // Check if the app is run for the first time (latestPurchaseDate is Unix Epoch time)
            if latestPurchaseDate == 0 {
                // Update latestPurchaseDate to the current time
                latestPurchaseDate = DateToInt(Date: Date())
-               currentTokens = 100
+               currentTrialTokens = 100
            }
+        
+        totalTokens = currentTokens + currentTrialTokens
         
         //initialize the UserViewModel by calling the Revenue Cat DB to check for the users entitlement. Entitlements control the permissions inside the app.
         Purchases.shared.getCustomerInfo { (customerInfo, error) in
@@ -149,7 +161,7 @@ class UserViewModel: ObservableObject {
                 if let nextRefillDate = oneMonthLater, currentDate >= nextRefillDate {
                     
                     // If one month or more has passed since the last token refill, add new tokens
-                    self.currentTokens = 100
+                    self.currentTrialTokens = 100
                     
                     // Update the latest token refill date to one month from the previous refill date
                     let nextRefillDateAsInt = Int(nextRefillDate.timeIntervalSince1970)
@@ -204,6 +216,24 @@ class UserViewModel: ObservableObject {
             self.refillDate = Int(refillDateAsDate!.timeIntervalSince1970)
         }
     }
+    
+    //MARK: Deduct Tokens Function
+    func deductTokens(amount: Int) {
+        if self.currentTokens >= amount {
+                // If there are enough currentTokens, deduct from them
+            self.currentTokens -= amount
+            } else {
+                // If there are not enough currentTokens, calculate the remainder
+                let remainder = amount - currentTokens
+
+                // Set currentTokens to zero
+                self.currentTokens = 0
+
+                // And subtract the remainder from currentTrialTokens
+                self.currentTrialTokens -= remainder
+            }
+        self.totalTokens = self.currentTokens + self.currentTrialTokens
+        }
 }
 
 

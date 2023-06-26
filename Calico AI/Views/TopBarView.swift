@@ -28,7 +28,7 @@ struct EntitlementsView: View {
                 .frame(maxWidth: 20)
                 .foregroundColor(Color.blue)
             
-            Text("\(userViewModel.currentTokens)")
+            Text("\(userViewModel.totalTokens)")
                 .font(.caption)
                 .foregroundColor(userViewModel.currentUserEntitlements.accentColour[0])
             

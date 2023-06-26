@@ -213,6 +213,7 @@ struct PurchaseButton: View {
                                     userViewModel.lastKnownTitle = userViewModel.currentUserEntitlements.title
                                     //Add the tokens for initial purchase
                                     userViewModel.currentTokens += userViewModel.currentUserEntitlements.monthlyTokens
+                                    userViewModel.totalTokens = userViewModel.currentTokens + userViewModel.currentTrialTokens
                                     isPurchasing = false
                                 } else if (userCancelled == true){
                                     isPurchasing = false

@@ -22,7 +22,7 @@ class UserEntitlements {
    
     let Apprentice = PermissionsStruct(
         title: "Apprentice",
-        monthlyTokens: 1000,
+        monthlyTokens: 5,
         maxResolution: 720,
         maxGenerations: 1,
         accentColour: [.purple, .pink],
